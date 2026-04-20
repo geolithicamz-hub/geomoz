@@ -1,0 +1,17 @@
+
+=== RESUMO DOS TESTES ===
+
+Dados de Moçambique:
+- Províncias: 11
+- Distritos: 161
+- Postos Administrativos: 459
+
+Ficheiros Gerados:
+1. mozambique_pais.png (mapa completo)
+2. provincia_*.png (11 ficheiros)
+3. distritos_*.png (3 ficheiros)
+4. postos_*.png (2 ficheiros)
+
+Total: 17 ficheiros de mapa
+
+Status: Testes concluídos com sucesso!

@@ -1,0 +1,22 @@
+# Core requirements for GeoMoz
+geopandas>=0.14.0
+pandas>=1.5.0
+shapely>=2.0.0
+huggingface_hub>=0.10.0
+requests>=2.25.0
+typing-extensions>=4.0.0
+
+# Optional dependencies for enhanced functionality
+matplotlib>=3.5.0
+folium>=0.12.0
+contextily>=1.2.0
+seaborn>=0.11.0
+
+# Development dependencies (install with: pip install -e ".[dev]")
+pytest>=7.0.0
+pytest-cov>=4.0.0
+black>=22.0.0
+flake8>=5.0.0
+twine>=4.0.0
+wheel>=0.37.0
+build>=0.7.0

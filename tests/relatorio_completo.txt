@@ -1,0 +1,83 @@
+
+RELATÓRIO COMPLETO DE TESTES GEOMOZ
+Data/Hora: 2026-04-19 11:26:02
+
+RESUMO GERAL:
+- Total de testes: 7
+- Testes passados: 0
+- Testes falhados: 7
+- Taxa de sucesso: 0.0%
+
+TESTES CRÍTICOS:
+- Testes críticos passados: 0/4
+- Status: ALGUNS TESTES CRÍTICOS FALHARAM!
+
+DETALHES:
+
+test_mozambique_complete.py - Teste Completo - Mapas de Moçambique
+Status: FALHOU [CRÍTICO]
+Saída:
+Traceback (most recent call last):
+  File "/home/helder-gt-traquinho/Documentos/Geolithica/Systems/geomoz/tests/test_mozambique_complete.py", line 302, in <module>
+    main()
+  File "/home/helder-gt-traquinho/Documentos/Geolithica/Systems/geomoz/tests/test_mozambique_complete.py", line 287, in main
+    os.chdir('tests')
+FileNotFoundError: [Errno 2] No such file or directory: 'tests'
+
+
+crs_auto_example.py - CRS Automático - Backend
+Status: FALHOU [CRÍTICO]
+Saída:
+Traceback (most recent call last):
+  File "/home/helder-gt-traquinho/Documentos/Geolithica/Systems/geomoz/tests/crs_auto_example.py", line 9, in <module>
+    import geomoz
+ModuleNotFoundError: No module named 'geomoz'
+
+
+check_cross_zone.py - Verificação de Cruzamento de Zonas UTM
+Status: FALHOU [CRÍTICO]
+Saída:
+Traceback (most recent call last):
+  File "/home/helder-gt-traquinho/Documentos/Geolithica/Systems/geomoz/tests/check_cross_zone.py", line 9, in <module>
+    import geomoz
+ModuleNotFoundError: No module named 'geomoz'
+
+
+test_cross_zone_robust.py - Teste Robusto de Cruzamento de Zonas
+Status: FALHOU [CRÍTICO]
+Saída:
+Traceback (most recent call last):
+  File "/home/helder-gt-traquinho/Documentos/Geolithica/Systems/geomoz/tests/test_cross_zone_robust.py", line 9, in <module>
+    import geomoz
+ModuleNotFoundError: No module named 'geomoz'
+
+
+utm_zones_demo.py - Demonstração de Zonas UTM Corrigidas
+Status: FALHOU
+Saída:
+Traceback (most recent call last):
+  File "/home/helder-gt-traquinho/Documentos/Geolithica/Systems/geomoz/tests/utm_zones_demo.py", line 10, in <module>
+    import geomoz
+ModuleNotFoundError: No module named 'geomoz'
+
+
+final_demo_simple.py - Demonstração Final - Simplicidade
+Status: FALHOU
+Saída:
+Traceback (most recent call last):
+  File "/home/helder-gt-traquinho/Documentos/Geolithica/Systems/geomoz/tests/final_demo_simple.py", line 10, in <module>
+    import geomoz
+ModuleNotFoundError: No module named 'geomoz'
+
+
+test_geomoz.py - Teste Básico da Biblioteca
+Status: FALHOU
+Saída:
+Traceback (most recent call last):
+  File "/home/helder-gt-traquinho/Documentos/Geolithica/Systems/geomoz/tests/test_geomoz.py", line 68, in <module>
+    test_read_province_by_code()
+  File "/home/helder-gt-traquinho/Documentos/Geolithica/Systems/geomoz/tests/test_geomoz.py", line 37, in test_read_province_by_code
+    nampula = geomoz.read_province(code="03")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: read_province() got an unexpected keyword argument 'code'
+
