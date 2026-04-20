@@ -23,12 +23,12 @@ requirements = [
 setup(
     name="geomoz",
     version="0.1.0",
-    author="Geolithica Team",
-    author_email="contact@geolithica.org",
+    author="Hélder Gonçalves Félix Traquinho",
+    author_email="heltrakinho@gmail.com",
     description="Geospatial data library for Mozambique with automatic Hugging Face integration",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/geolithicamz/geomoz",
+    url="https://geolithica.com",
     project_urls={
         "Bug Tracker": "https://github.com/geolithicamz/geomoz/issues",
         "Documentation": "https://github.com/geolithicamz/geomoz/blob/main/README.md",
