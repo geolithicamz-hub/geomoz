@@ -29,19 +29,36 @@ pip install geomoz geopandas matplotlib folium
 
 ```python
 import geomoz
-from geomoz import quick_map
+import matplotlib.pyplot as plt
 
-# Carregar províncias
-provinces = geomoz.read_province()
-print(f"✅ {len(provinces)} províncias carregadas")
+# Carregar dados
+provincias = geomoz.read_province()
+print(f"✅ {len(provincias)} províncias carregadas")
 
-# Mapa rápido
-quick_map(provinces, column='Provincia')
+# Criar figura
+fig, ax = plt.subplots(figsize=(8, 12))
 
-# Hierarquia completa
-districts = geomoz.read_district()
-posts = geomoz.read_admin_post()
-villages = geomoz.read_village()  # Usar cache para aldeias!
+# Plot
+provincias.plot(
+    ax=ax,
+    column="Provincia",
+    cmap="tab20",
+    edgecolor="black",
+    linewidth=0.8,
+    legend=True,
+    legend_kwds={"loc": "upper left", "title": "Provincias"}
+)
+
+# Ajustes
+ax.set_title("Províncias de Moçambique", fontsize=14)
+ax.axis("off")
+
+# Mover legenda
+leg = ax.get_legend()
+leg.set_bbox_to_anchor((1.05, 1))  # fora do mapa
+
+plt.tight_layout()
+plt.show()
 ```
 
 ---
