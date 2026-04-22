@@ -1,0 +1,74 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "geomoz"
+version = "0.1.1"
+description = "Geospatial data library for Mozambique with geological and administrative datasets"
+readme = "README.md"
+requires-python = ">=3.8"
+
+authors = [
+    { name = "Hélder Gonçalves Félix Traquinho", email = "heltrakinho@gmail.com" }
+]
+
+license = { text = "MIT" }
+
+keywords = [
+    "geospatial",
+    "mozambique",
+    "gis",
+    "geopandas",
+    "geology",
+    "spatial-data",
+    "africa"
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: GIS"
+]
+
+dependencies = [
+    "geopandas>=0.14.0",
+    "pandas>=1.5.0",
+    "shapely>=2.0.0",
+    "huggingface_hub>=0.10.0",
+    "requests>=2.25.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=22.0.0",
+    "flake8>=5.0.0",
+    "twine>=4.0.0",
+    "wheel>=0.37.0",
+    "build>=0.7.0"
+]
+
+viz = [
+    "matplotlib>=3.5.0",
+    "folium>=0.12.0",
+    "contextily>=1.2.0",
+    "seaborn>=0.11.0"
+]
+
+[project.urls]
+Homepage = "https://geolithica.com"
+Repository = "https://github.com/geolithicamz-hub/geomoz"
+Documentation = "https://github.com/geolithicamz-hub/geomoz/blob/main/README.md"
+"Bug Tracker" = "https://github.com/geolithicamz-hub/geomoz/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["geomoz"]
+
+[tool.hatch.build.targets.wheel.force-exclude]
+"LICENSE" = true

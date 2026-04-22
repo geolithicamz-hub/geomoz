@@ -5,7 +5,7 @@ Similar ao geobr (Brasil), mas focado em dados geográficos de Moçambique.
 Fornece acesso fácil a dados de províncias, distritos, e outras divisões administrativas.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __author__ = "Hélder Gonçalves Félix Traquinho - Chief Executive Officer da Geolithica"
 
 # Import all read functions following geobr pattern
