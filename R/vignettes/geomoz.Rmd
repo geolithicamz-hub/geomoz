@@ -1,0 +1,88 @@
+---
+title: "Introduction to GeoMoz"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to GeoMoz}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(geomoz)
+```
+
+## Overview
+
+**GeoMoz** provides easy access to geospatial data for Mozambique, including administrative boundaries and geological data.
+
+## Loading Administrative Data
+
+### Provinces
+
+```{r provinces}
+# Load all provinces
+provinces <- read_province()
+print(nrow(provinces))
+
+# Load specific province
+nampula <- read_province(name_province = "Nampula")
+print(nrow(nampula))
+```
+
+### Districts
+
+```{r districts}
+# Load all districts
+districts <- read_district()
+print(nrow(districts))
+
+# Filter by province
+nampula_districts <- read_district(name_province = "Nampula")
+print(nrow(nampula_districts))
+```
+
+### Villages
+
+```{r villages, eval = FALSE}
+# Load villages (uses cache for performance)
+villages <- read_village(name_province = "Nampula")
+print(nrow(villages))
+```
+
+## Loading Geology Data
+
+```{r geology}
+# Load geology data
+geology <- read_geology(era = "Proterozoic")
+print(nrow(geology))
+```
+
+## Plotting
+
+```{r plotting, eval = requireNamespace("ggplot2", quietly = TRUE)}
+library(ggplot2)
+
+# Plot provinces
+provinces <- read_province()
+ggplot(provinces) +
+  geom_sf(aes(fill = Provincia)) +
+  theme_minimal() +
+  labs(title = "Provinces of Mozambique")
+```
+
+## Cache Management
+
+```{r cache}
+# Check cache info
+cache_info()
+
+# Clear cache if needed
+# clear_cache()
+```

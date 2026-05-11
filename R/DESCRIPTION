@@ -32,7 +32,7 @@ Suggests:
     testthat (>= 3.0.0),
     knitr,
     rmarkdown
-URL: https://github.com/geolithicamz-hub/geomozr
-BugReports: https://github.com/geolithicamz-hub/geomozr/issues
+URL: https://github.com/geolithicamz-hub/geomoz/tree/main/R
+BugReports: https://github.com/geolithicamz-hub/geomoz/issues
 VignetteBuilder: knitr
 SystemRequirements: GDAL (>= 2.0.0), GEOS (>= 3.3.0), PROJ (>= 4.8.0)
