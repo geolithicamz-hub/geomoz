@@ -1,14 +1,26 @@
 # GeoMoz - Dados Geográficos de Moçambique
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-0.1.0-blue.svg" alt="Version">
+  <img src="https://img.shields.io/badge/version-0.1.1-blue.svg" alt="Version">
   <img src="https://img.shields.io/badge/python-3.8%2B-blue.svg" alt="Python">
+  <img src="https://img.shields.io/badge/R-4.0%2B-blue.svg" alt="R">
   <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License">
 </p>
 
 **GeoMoz** é um pacote Python que fornece acesso fácil a dados geográficos de Moçambique, incluindo divisões administrativas (11 províncias, 161 distritos, 459 postos, 11.524 aldeias) e dados geológicos completos.
 
 Inspirado no [`geobr`](https://github.com/ipeaGIT/geobr) (Brasil).
+
+> 🎉 **Agora também disponível em R!** Veja a pasta [`R/`](R/) para o pacote **GeoMozR**.
+
+---
+
+## 📦 Versões Disponíveis
+
+| Linguagem | Instalação | Pasta |
+|-----------|-----------|-------|
+| **Python** | `pip install geomoz` | Raiz do projeto |
+| **R** | `devtools::install_github("geolithicamz-hub/geomoz", subdir="R")` | [`R/`](R/) |
 
 ---
 
@@ -109,10 +121,10 @@ m.save('mapa.html')
 
 ## 📚 Documentação
 
-- **📖 [README Completo](README_COMPREHENSIVE.md)** - Documentação detalhada
-- **🎓 [Tutorial Educativo](TUTORIAL.md)** - Guia passo a passo
-- **📋 [Referência Rápida](QUICK_REFERENCE.md)** - Cheat sheet
-- **💻 [Exemplos](examples/)** - Códigos de exemplo
+- **📖 [README Completo](https://github.com/geolithicamz-hub/geomoz/blob/main/README_COMPREHENSIVE.md)** - Documentação detalhada
+- **🎓 [Tutorial Educativo](https://github.com/geolithicamz-hub/geomoz/blob/main/TUTORIAL.md)** - Guia passo a passo
+- **📋 [Referência Rápida](https://github.com/geolithicamz-hub/geomoz/blob/main/QUICK_REFERENCE.md)** - Cheat sheet
+- **💻 [Exemplos](https://github.com/geolithicamz-hub/geomoz/tree/main/examples)** - Códigos de exemplo
 
 ---
 
