@@ -16,21 +16,10 @@ from .read_village import read_village
 from .read_geology import read_geology
 from .list_geomoz import list_geomoz, list_available_geographies, list_available_years, get_dataset_info
 
-# Import plot utilities
-from .plot_utils import (
-    plot_provinces,
-    plot_districts_by_province,
-    plot_administrative_hierarchy,
-    plot_villages_with_names,
-    plot_geology_by_area,
-    create_comparison_plot,
-    quick_map
-)
-
 # Import spatial functions
 from .spatial import (
     link_district_province,
-    link_village_district, 
+    link_village_district,
     link_admin_post_district,
     geology_by_province,
     geology_by_district,
@@ -40,8 +29,42 @@ from .spatial import (
     calculate_area
 )
 
-# Legacy functions for backward compatibility
-from .core import list_geometries, list_provinces
+# Plotting utilities are imported lazily so that the core package works
+# without the optional visualization dependencies (matplotlib, etc.).
+# They are exposed via module-level __getattr__ (PEP 562).
+_PLOT_FUNCTIONS = {
+    "plot_provinces",
+    "plot_districts_by_province",
+    "plot_administrative_hierarchy",
+    "plot_villages_with_names",
+    "plot_geology_by_area",
+    "create_comparison_plot",
+    "quick_map",
+}
+
+
+def __getattr__(name):
+    """Lazily import optional plotting helpers (PEP 562).
+
+    Importing ``geomoz`` must not require matplotlib. The plotting helpers
+    are only loaded when first accessed, and a clear, actionable error is
+    raised if the visualization extras are missing.
+    """
+    if name in _PLOT_FUNCTIONS:
+        try:
+            from . import plot_utils
+        except ImportError as exc:  # pragma: no cover - depends on environment
+            raise ImportError(
+                f"'{name}' requires the optional visualization dependencies. "
+                "Install them with: pip install 'geomoz[viz]'"
+            ) from exc
+        return getattr(plot_utils, name)
+    raise AttributeError(f"module 'geomoz' has no attribute '{name}'")
+
+
+def __dir__():
+    return sorted(list(globals().keys()) + list(_PLOT_FUNCTIONS))
+
 
 __all__ = [
     # Main read functions
@@ -76,8 +99,13 @@ __all__ = [
     "geology_by_area",
     "get_hierarchical_data",
     "calculate_area",
-    
-    # Legacy functions
-    "list_geometries",
-    "list_provinces",
+
+    # Plot utilities (lazily imported)
+    "plot_provinces",
+    "plot_districts_by_province",
+    "plot_administrative_hierarchy",
+    "plot_villages_with_names",
+    "plot_geology_by_area",
+    "create_comparison_plot",
+    "quick_map",
 ]

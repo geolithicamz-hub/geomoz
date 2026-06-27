@@ -73,13 +73,8 @@ def main():
     info = geomoz.get_dataset_info('province', 2017)
     print(f"    Function: {info.iloc[0]['function']}")
     print(f"    Source: {info.iloc[0]['source']}")
-    print(f"    File: {info.iloc[0]['file']}")
-    
-    # 12. Funções legacy (backward compatibility)
-    print("\n12. Funções legacy:")
-    legacy_provinces = geomoz.list_provinces()
-    print(f"    List provinces (legacy): {len(legacy_provinces)}")
-    
+    print(f"    File: {info.iloc[0]['filename']}")
+
     print("\n=== Exemplo concluído com sucesso! ===")
 
 if __name__ == "__main__":

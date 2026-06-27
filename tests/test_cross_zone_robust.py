@@ -6,8 +6,12 @@ Teste robusto do tratamento de cruzamento de zonas UTM
 import sys
 sys.path.insert(0, '.')
 
+import pytest
+
 import geomoz
 
+
+@pytest.mark.network
 def test_cross_zone_treatment():
     """
     Testar tratamento de cruzamento de zonas UTM em diferentes cenários

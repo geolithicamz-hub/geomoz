@@ -2,10 +2,8 @@
 Data utilities for GeoMoz - Hugging Face integration
 """
 
-import os
 import warnings
 from pathlib import Path
-from typing import Optional
 
 try:
     from huggingface_hub import hf_hub_download
@@ -70,13 +68,14 @@ def get_data_path(filename: str, repo_id: str = "geolithicamz/geomoz-data") -> s
         # Create cache directory if it doesn't exist
         CACHE_DIR.mkdir(parents=True, exist_ok=True)
         
-        # Download file from Hugging Face
+        # Download file from Hugging Face (downloads are resumed by default
+        # in recent huggingface_hub versions; the explicit flag was removed
+        # because it is deprecated).
         file_path = hf_hub_download(
             repo_id=repo_id,
             filename=filename,
             repo_type="dataset",
             cache_dir=CACHE_DIR,
-            resume_download=True
         )
     except Exception as e:
         # Fallback robusto com mensagem clara
@@ -100,8 +99,8 @@ def get_data_path(filename: str, repo_id: str = "geolithicamz/geomoz-data") -> s
 4. Desative firewall/proxy temporariamente
 
 📞 Se o problema persistir:
-• Abra issue em: https://github.com/geolithicamz/geomoz/issues
-• Email: contact@geolithica.org
+• Abra issue em: https://github.com/geolithicamz-hub/geomoz/issues
+• Email: heltrakinho@gmail.com
 
 Erro original: {str(e)}
 """
@@ -212,7 +211,7 @@ def get_cache_info() -> dict:
             file_count = 0
             files = []
             
-            for root, dirs, filenames in os.walk(CACHE_DIR):
+            for root, _dirs, filenames in os.walk(CACHE_DIR):
                 for filename in filenames:
                     if filename.endswith('.gpkg'):
                         file_path = Path(root) / filename

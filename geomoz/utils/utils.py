@@ -3,6 +3,7 @@ Legacy utility functions for GeoMoz
 Maintained for backward compatibility
 """
 
+import geopandas as gpd
 import pandas as pd
 from pathlib import Path
 
@@ -20,46 +21,61 @@ def load_metadata() -> pd.DataFrame:
     metadata = pd.DataFrame([
         {
             'name': 'province',
+            'function': 'read_province',
+            'geography': 'Province',
             'filename': 'province_2017.gpkg',
             'year': 2017,
             'code_column': 'CodProv',
             'name_column': 'Provincia',
+            'source': 'INE Moçambique',
             'description': 'Provincial boundaries of Mozambique'
         },
         {
             'name': 'district',
+            'function': 'read_district',
+            'geography': 'District',
             'filename': 'district_2017.gpkg',
             'year': 2017,
             'code_column': 'CodDist',
             'name_column': 'Distrito',
+            'source': 'INE Moçambique',
             'description': 'District boundaries of Mozambique'
         },
         {
             'name': 'admin_post',
+            'function': 'read_admin_post',
+            'geography': 'Administrative Post',
             'filename': 'adminpost_2017.gpkg',
             'year': 2017,
             'code_column': 'CodPosto',
             'name_column': 'Posto',
+            'source': 'INE Moçambique',
             'description': 'Administrative post boundaries of Mozambique'
         },
         {
             'name': 'village',
+            'function': 'read_village',
+            'geography': 'Village',
             'filename': 'village_2017.gpkg',
             'year': 2017,
             'code_column': 'CodPov',
             'name_column': 'Povoacao',
+            'source': 'INE Moçambique',
             'description': 'Village boundaries of Mozambique'
         },
         {
             'name': 'geology',
+            'function': 'read_geology',
+            'geography': 'Geology',
             'filename': 'geology_2006.gpkg',
             'year': 2006,
             'code_column': 'code2006',
             'name_column': 'Legend',
+            'source': 'Conselho Nacional de Geologia (DNGM)',
             'description': 'Geological units of Mozambique'
         }
     ])
-    
+
     return metadata
 
 
@@ -96,7 +112,7 @@ def select_metadata(data_type: str, year: int = None, simplified: bool = True) -
     return row
 
 
-def download_gpkg(metadata: pd.Series, code: str = None) -> 'geopandas.GeoDataFrame':
+def download_gpkg(metadata: pd.Series, code: str = None) -> 'gpd.GeoDataFrame':
     """
     Download and load geopackage file
     
@@ -178,7 +194,7 @@ def validate_name(name: str, metadata: pd.Series) -> str:
     return str(name)
 
 
-def advanced_download_gpkg(metadata: pd.Series, **filters) -> 'geopandas.GeoDataFrame':
+def advanced_download_gpkg(metadata: pd.Series, **filters) -> 'gpd.GeoDataFrame':
     """
     Download and filter geopackage file with advanced filters
     
