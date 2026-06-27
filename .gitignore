@@ -22,8 +22,10 @@ wheels/
 
 # Virtual environments
 venv/
+.venv/
 env/
 ENV/
+test_env/
 
 # IDEs
 .vscode/
@@ -60,6 +62,10 @@ data/
 test_output/
 coverage/
 htmlcov/
+.coverage
+tests/*.png
+tests/*.html
+tests/*.txt
 
 # GeoMoz cache
 .geomoz_cache/
