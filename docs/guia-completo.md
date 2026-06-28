@@ -220,25 +220,30 @@ print(geology['ERA'].value_counts())
 ### Exemplos de Uso
 
 ```python
-# Carregar tudo de uma província
+# Carregar tudo de uma província usando análise espacial
 from geomoz import read_province, read_district, read_admin_post, read_village
+import geopandas as gpd
 
 province_name = "Nampula"
 
 # 1. Província
 province = read_province(name_province=province_name)
+# Usar union_all() para evitar DeprecationWarning
+area_provincia = province.geometry.union_all()
 
 # 2. Distritos
 districts = read_district()
-province_districts = districts[districts['Provincia'] == province_name]
+province_districts = districts[districts.intersects(area_provincia)]
 
 # 3. Postos
 posts = read_admin_post()
-province_posts = posts[posts['Provincia'] == province_name]
+province_posts = posts[posts.intersects(area_provincia)]
 
 # 4. Aldeias
 villages = read_village()
-province_villages = villages[villages['Provincia'] == province_name]
+# Garantir que o CRS seja o mesmo para a operação espacial
+villages = villages.to_crs(province.crs)
+province_villages = villages[villages.intersects(area_provincia)]
 
 print(f"{province_name}: {len(province_districts)} distritos, "
       f"{len(province_posts)} postos, {len(province_villages)} aldeias")
