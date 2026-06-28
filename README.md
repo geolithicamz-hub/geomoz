@@ -12,7 +12,7 @@
 
 Inspirado no [`geobr`](https://github.com/ipeaGIT/geobr) (Brasil).
 
-> **Agora também disponível em R!** Veja a pasta [`R/`](R/) para o pacote **GeoMozR**.
+> **Agora também disponível em R!** Veja a pasta [`R/`](https://github.com/geolithicamz-hub/geomoz/tree/main/R) para o pacote **GeoMozR**.
 
 ---
 
@@ -21,7 +21,7 @@ Inspirado no [`geobr`](https://github.com/ipeaGIT/geobr) (Brasil).
 | Linguagem | Instalação | Pasta |
 |-----------|-----------|-------|
 | **Python** | `pip install geomoz` | Raiz do projeto |
-| **R** | `devtools::install_github("geolithicamz-hub/geomoz", subdir="R")` | [`R/`](R/) |
+| **R** | `devtools::install_github("geolithicamz-hub/geomoz", subdir="R")` | [`R/`](https://github.com/geolithicamz-hub/geomoz/tree/main/R) |
 
 ---
 
@@ -122,13 +122,13 @@ m.save('mapa.html')
 
 ## Documentação
 
-- **[Guia Completo](docs/guia-completo.md)** - Documentação detalhada
-- **[Tutorial Educativo](docs/tutorial.md)** - Guia passo a passo
-- **[Referência Rápida](docs/referencia-rapida.md)** - Cheat sheet
-- **[Mapeamento Geológico](docs/mapeamento-geologico.md)** - Exemplos de mapas
-- **[Exemplos](examples/)** - Códigos de exemplo
-- **[Artigo Técnico](ARTIGO_GEOMOZ.md)** - Visão geral da biblioteca
-- **[Changelog](CHANGELOG.md)** - Histórico de versões
+- **[Guia Completo](https://github.com/geolithicamz-hub/geomoz/blob/main/docs/guia-completo.md)** - Documentação detalhada
+- **[Tutorial Educativo](https://github.com/geolithicamz-hub/geomoz/blob/main/docs/tutorial.md)** - Guia passo a passo
+- **[Referência Rápida](https://github.com/geolithicamz-hub/geomoz/blob/main/docs/referencia-rapida.md)** - Cheat sheet
+- **[Mapeamento Geológico](https://github.com/geolithicamz-hub/geomoz/blob/main/docs/mapeamento-geologico.md)** - Exemplos de mapas
+- **[Exemplos](https://github.com/geolithicamz-hub/geomoz/tree/main/examples)** - Códigos de exemplo
+- **[Artigo Técnico](https://github.com/geolithicamz-hub/geomoz/blob/main/ARTIGO_GEOMOZ.md)** - Visão geral da biblioteca
+- **[Changelog](https://github.com/geolithicamz-hub/geomoz/blob/main/CHANGELOG.md)** - Histórico de versões
 
 ---
 
@@ -145,7 +145,7 @@ pytest -m "not network"
 
 ## Licença
 
-MIT License - veja [LICENSE](LICENSE)
+MIT License - veja [LICENSE](https://github.com/geolithicamz-hub/geomoz/blob/main/LICENSE)
 
 ---
 
