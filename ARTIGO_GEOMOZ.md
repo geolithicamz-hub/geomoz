@@ -141,7 +141,7 @@ A biblioteca inclui uma suíte de testes automatizados dividida em testes **offl
 (API pública, metadados, importação preguiçosa) e testes **de rede** (marcados e
 desativáveis com `pytest -m "not network"`), permitindo verificação rápida em ambientes
 sem conectividade. A integração contínua (GitHub Actions) executa a suíte em múltiplas
-versões de Python (3.8, 3.10 e 3.12) e confirma, a cada alteração, que o pacote importa
+versões de Python (3.9, 3.10 e 3.12) e confirma, a cada alteração, que o pacote importa
 corretamente **sem** as dependências opcionais de visualização — um teste de regressão
 para o desenho descrito na Secção 4.1. A versão do pacote é mantida numa única fonte de
 verdade (`geomoz/__init__.py`), evitando divergências de metadados.

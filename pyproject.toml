@@ -7,7 +7,7 @@ name = "geomoz"
 dynamic = ["version"]
 description = "Geospatial data library for Mozambique with geological and administrative datasets"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 
 authors = [
     { name = "Hélder Gonçalves Félix Traquinho", email = "heltrakinho@gmail.com" }

@@ -78,7 +78,7 @@ python build_and_publish.py pypi
 - **Version**: `1.0.0`
 - **Description**: "Geospatial data library for Mozambique with automatic Hugging Face integration"
 - **License**: MIT
-- **Python**: >=3.8
+- **Python**: >=3.9
 
 ### Dependencies
 ```python
