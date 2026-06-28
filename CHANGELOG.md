@@ -5,6 +5,19 @@ Todas as mudanças relevantes deste projeto são documentadas neste ficheiro.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/),
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [0.1.3] - 2026-06-28
+
+### Corrigido
+- Metadados de empacotamento no PyPI: o pacote publicado passa a declarar
+  corretamente **Python >= 3.9** (a 0.1.2 no PyPI ainda anunciava >= 3.8,
+  incompatível com `geopandas >= 0.14`).
+
+### Alterado
+- Mensagens de runtime (`print`/erros) sem emojis, para uma apresentação
+  mais limpa.
+- README com badges dinâmicos de CI e PyPI; documentação consolidada em
+  `docs/`.
+
 ## [0.1.2] - 2026-06-28
 
 ### Corrigido
@@ -45,5 +58,6 @@ e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
   postos administrativos, localidades e geologia de Moçambique, com
   download automático a partir do Hugging Face.
 
+[0.1.3]: https://github.com/geolithicamz-hub/geomoz/releases/tag/v0.1.3
 [0.1.2]: https://github.com/geolithicamz-hub/geomoz/releases/tag/v0.1.2
 [0.1.1]: https://github.com/geolithicamz-hub/geomoz/releases/tag/v0.1.1
