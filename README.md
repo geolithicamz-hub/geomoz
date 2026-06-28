@@ -121,20 +121,23 @@ m.save('mapa.html')
 
 ## Documentação
 
-- **[README Completo](https://github.com/geolithicamz-hub/geomoz/blob/main/README_COMPREHENSIVE.md)** - Documentação detalhada
-- **[Tutorial Educativo](https://github.com/geolithicamz-hub/geomoz/blob/main/TUTORIAL.md)** - Guia passo a passo
-- **[Referência Rápida](https://github.com/geolithicamz-hub/geomoz/blob/main/QUICK_REFERENCE.md)** - Cheat sheet
-- **[Exemplos](https://github.com/geolithicamz-hub/geomoz/tree/main/examples)** - Códigos de exemplo
+- **[Guia Completo](docs/guia-completo.md)** - Documentação detalhada
+- **[Tutorial Educativo](docs/tutorial.md)** - Guia passo a passo
+- **[Referência Rápida](docs/referencia-rapida.md)** - Cheat sheet
+- **[Mapeamento Geológico](docs/mapeamento-geologico.md)** - Exemplos de mapas
+- **[Exemplos](examples/)** - Códigos de exemplo
+- **[Artigo Técnico](ARTIGO_GEOMOZ.md)** - Visão geral da biblioteca
+- **[Changelog](CHANGELOG.md)** - Histórico de versões
 
 ---
 
 ## Desenvolvimento
 
 ```bash
-git clone https://github.com/geolithica/geomoz.git
+git clone https://github.com/geolithicamz-hub/geomoz.git
 cd geomoz
 pip install -e ".[dev]"
-pytest
+pytest -m "not network"
 ```
 
 ---

@@ -399,8 +399,8 @@ print(provinces['Provincia'].tolist())
 
 ## Recursos Adicionais
 
-- **README Completo**: `README_COMPREHENSIVE.md`
-- **Tutorial Educativo**: `TUTORIAL.md`
+- **README Completo**: [Guia Completo](guia-completo.md)
+- **Tutorial Educativo**: [Tutorial](tutorial.md)
 - **Exemplos**: Pasta `examples/`
 - **Documentação API**: Docstrings nas funções
 
