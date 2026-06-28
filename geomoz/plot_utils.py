@@ -58,7 +58,7 @@ def plot_provinces(
     provinces = read_province()
 
     # Plotar
-    colors = plt.cm.get_cmap(cmap)(np.linspace(0, 1, len(provinces)))
+    colors = plt.get_cmap(cmap)(np.linspace(0, 1, len(provinces)))
 
     for idx, (i, row) in enumerate(provinces.iterrows()):
         gpd.GeoSeries([row.geometry]).plot(
@@ -338,7 +338,7 @@ def plot_villages_with_names(
     ax.set_title(f'Aldeias do Posto: {post_name}\n({len(post_villages)} aldeias)',
                  fontsize=14, fontweight='bold')
     ax.axis('off')
-    ax.legend(loc='upper right')
+    ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
     if save_path:
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
@@ -550,8 +550,11 @@ def quick_map(
     fig, ax = plt.subplots(figsize=figsize)
 
     if column:
+        # Place the legend outside the map area so it never overlaps the plot
         gdf.plot(ax=ax, column=column, cmap='tab20', edgecolor='black',
-                linewidth=0.5, legend=True)
+                linewidth=0.5, legend=True,
+                legend_kwds={'loc': 'center left', 'bbox_to_anchor': (1, 0.5),
+                             'title': column})
     else:
         gdf.plot(ax=ax, color='lightblue', edgecolor='black', linewidth=0.5)
 

@@ -51,7 +51,7 @@ print(f"{len(provincias)} províncias carregadas")
 # Criar figura
 fig, ax = plt.subplots(figsize=(8, 12))
 
-# Plot
+# Plot — a legenda é colocada FORA do mapa para não sobrepor a figura
 provincias.plot(
     ax=ax,
     column="Provincia",
@@ -59,16 +59,16 @@ provincias.plot(
     edgecolor="black",
     linewidth=0.8,
     legend=True,
-    legend_kwds={"loc": "upper left", "title": "Provincias"}
+    legend_kwds={
+        "loc": "center left",
+        "bbox_to_anchor": (1.02, 0.5),  # à direita, fora do mapa
+        "title": "Província",
+    },
 )
 
 # Ajustes
 ax.set_title("Províncias de Moçambique", fontsize=14)
 ax.axis("off")
-
-# Mover legenda
-leg = ax.get_legend()
-leg.set_bbox_to_anchor((1.05, 1)) # fora do mapa
 
 plt.tight_layout()
 plt.show()

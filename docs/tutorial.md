@@ -125,7 +125,7 @@ nampula = geomoz.read_province(code_province="03")
 # Plotar
 import matplotlib.pyplot as plt
 fig, ax = plt.subplots(figsize=(10, 8))
-provinces.plot(ax=ax, column='Provincia', cmap='tab20', legend=True)
+provinces.plot(ax=ax, column='Provincia', cmap='tab20', legend=True, legend_kwds={'loc': 'center left', 'bbox_to_anchor': (1, 0.5)})
 ax.set_title('Províncias de Moçambique')
 plt.show()
 ```
@@ -224,7 +224,7 @@ print(geology['ERA'].value_counts())
 # - Cenozoic (Cenozoico): < 66M anos
 
 # Filtrar por era
-proterozoic = geology[geology['ERA'] == 'Proterozoic']
+proterozoic = geology[geology['ERA'].str.upper().str.contains('PROTEROZOIC', na=False)]
 print(f"Unidades Proterozoicas: {len(proterozoic)}")
 
 # Cores geologicamente corretas
@@ -275,7 +275,7 @@ provinces.plot()
 plt.show()
 
 # Plot com cores por atributo
-provinces.plot(column='Provincia', cmap='tab20', legend=True)
+provinces.plot(column='Provincia', cmap='tab20', legend=True, legend_kwds={'loc': 'center left', 'bbox_to_anchor': (1, 0.5)})
 plt.title('Províncias de Moçambique')
 plt.show()
 ```
@@ -385,7 +385,7 @@ from geomoz.spatial import (
 geo_nampula = geology_by_province(name_province="Nampula")
 
 # Geologia por distrito
-geo_tete_city = geology_by_district(name_district="Tete")
+geo_tete_city = geology_by_district(name_district="Cidade de Tete")
 
 # Link villages to district
 villages_with_district = link_village_district(name_district="Nampula")
@@ -559,7 +559,7 @@ provinces = read_province()
 results = []
 for idx, prov in provinces.iterrows():
     geo_in_prov = gpd.overlay(geology, gpd.GeoDataFrame([prov]), how='intersection')
-    mesozoic_count = len(geo_in_prov[geo_in_prov['ERA'] == 'Mesozoic'])
+    mesozoic_count = len(geo_in_prov[geo_in_prov['ERA'].str.upper().str.contains('MESOZOIC', na=False)])
     results.append({'Provincia': prov['Provincia'], 'Mesozoic': mesozoic_count})
 
 import pandas as pd

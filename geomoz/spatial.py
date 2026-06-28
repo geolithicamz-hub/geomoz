@@ -443,8 +443,12 @@ def geology_by_district(
     if code_district is None and name_district is None:
         raise ValueError("Either 'code_district' or 'name_district' must be provided")
 
-    # Load data
-    district = read_district(code_district=code_district, name_district=name_district)
+    # Load data (pass only the filter that was provided; read_district rejects
+    # receiving both code and name at once)
+    if code_district is not None:
+        district = read_district(code_district=code_district)
+    else:
+        district = read_district(name_district=name_district)
     geology = read_geology(**geology_filters) if geology_filters else read_geology(code_geology="all")
 
     # Ensure same CRS
@@ -486,8 +490,12 @@ def geology_by_admin_post(
     if code_admin_post is None and name_admin_post is None:
         raise ValueError("Either 'code_admin_post' or 'name_admin_post' must be provided")
 
-    # Load data
-    admin_post = read_admin_post(code_admin_post=code_admin_post, name_admin_post=name_admin_post)
+    # Load data (pass only the filter that was provided; read_admin_post rejects
+    # receiving both code and name at once)
+    if code_admin_post is not None:
+        admin_post = read_admin_post(code_admin_post=code_admin_post)
+    else:
+        admin_post = read_admin_post(name_admin_post=name_admin_post)
     geology = read_geology(**geology_filters) if geology_filters else read_geology(code_geology="all")
 
     # Ensure same CRS

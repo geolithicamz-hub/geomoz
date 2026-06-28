@@ -1,7 +1,7 @@
 # GeoMoz - Pacote de Dados Geográficos de Moçambique
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-0.1.0-blue.svg" alt="Version">
+  <img src="https://img.shields.io/badge/version-0.1.4-blue.svg" alt="Version">
   <img src="https://img.shields.io/badge/python-3.9%2B-blue.svg" alt="Python">
   <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License">
   <img src="https://img.shields.io/badge/coverage-85%25-yellow.svg" alt="Coverage">
@@ -41,7 +41,7 @@ pip install geomoz
 ### Instalação em modo desenvolvimento
 
 ```bash
-git clone https://github.com/geolithica/geomoz.git
+git clone https://github.com/geolithicamz-hub/geomoz.git
 cd geomoz
 pip install -e ".[dev]"
 ```
@@ -133,7 +133,7 @@ geo_nampula = geology_by_province(name_province="Nampula")
 
 # Geologia por distrito
 from geomoz.spatial import geology_by_district
-geo_tete = geology_by_district(name_district="Tete")
+geo_tete = geology_by_district(name_district="Cidade de Tete")
 ```
 
 ---
@@ -177,7 +177,7 @@ print(f"Total de postos: {len(posts)}") # 459
 
 #### Aldeias (Localidades)
 - **Função**: `read_village()` ou `CachedGeoMoz.read_village()`
-- **Colunas**: `CodPov`, `Povoacao`, `CodPosto`, `Posto`, `CodDist`, `Distrito`, `CodProv`, `Provincia`, `geometry`
+- **Colunas normalizadas**: `Povoacao`, `Posto`, `Distrito`, `Provincia`, `Latitude`, `Longitude`, `geometry` (as colunas originais do dataset são mantidas em seguida)
 
 ```python
 # Usar cache para aldeias (dados grandes!)
@@ -190,7 +190,7 @@ print(f"Total de aldeias: {len(villages)}") # 11.524
 
 #### Geologia
 - **Função**: `read_geology()`
-- **Colunas**: `code2006`, `Legend`, `UNITNAME`, `ROCKTYPE1`, `ERA`, `geometry`
+- **Colunas principais**: `code2006`, `Legend`, `Legenda`, `EON`, `ERA`, `PERIOD`, `SUITE`, `Formation`, `geometry` (entre outras)
 
 ```python
 geology = geomoz.read_geology()
@@ -260,13 +260,16 @@ provinces = geomoz.read_province()
 # Criar figura
 fig, ax = plt.subplots(figsize=(12, 10))
 
-# Plotar
+# Plotar — legenda fora do mapa para não sobrepor a figura
 provinces.plot(ax=ax, column='Provincia', cmap='tab20',
-               edgecolor='black', linewidth=1, legend=True)
+               edgecolor='black', linewidth=1, legend=True,
+               legend_kwds={'loc': 'center left', 'bbox_to_anchor': (1, 0.5),
+                            'title': 'Província'})
 
 ax.set_title('Províncias de Moçambique', fontsize=16)
 ax.axis('off')
-plt.savefig('provincias.png', dpi=300)
+plt.tight_layout()
+plt.savefig('provincias.png', dpi=300, bbox_inches='tight')
 plt.show()
 ```
 
@@ -315,37 +318,47 @@ plt.show()
 
 ```python
 import geomoz
-import geopandas as gpd
 import matplotlib.pyplot as plt
+from geomoz.spatial import geology_by_province
 
-# Carregar dados
-geology = geomoz.read_geology()
-province = geomoz.read_province(name_province="Tete")
+# Recorta a geologia à província (o CRS é tratado internamente)
+geo = geology_by_province(name_province="Tete")
 
-# Interseção
-geology = geology.to_crs(province.crs)
-geo_province = gpd.overlay(geology, province, how='intersection')
+# A coluna 'ERA' do dataset original mistura maiúsculas/minúsculas e
+# subdivisões (MESOARCHEAN, NEOPROTEROZOIC, Cretaceous, ...); normalizamos
+# para as grandes eras geológicas antes de mapear.
+def classificar_era(valor):
+    v = str(valor).upper()
+    if "ARCHEAN" in v:
+        return "Arqueano"
+    if "PROTEROZOIC" in v:
+        return "Proterozoico"
+    if "PALEOZOIC" in v or v in ("CAMBRIAN", "ORDOVISIAN"):
+        return "Paleozoico"
+    if "MESOZOIC" in v or v in ("JURRASSIC", "CRETACEOUS"):
+        return "Mesozoico"
+    if "CENOZOIC" in v or v in ("TERTIARY", "QUATERNARY"):
+        return "Cenozoico"
+    return "Outro"
 
-# Plotar por ERA
+geo["Era"] = geo["ERA"].map(classificar_era)
+
+# Plotar — a legenda fica FORA do mapa para não sobrepor a figura
 fig, ax = plt.subplots(figsize=(12, 10))
-
-# Cores por era
-era_colors = {
-    'Archean': '#6b3d2e',
-    'Proterozoic': '#a0522d',
-    'Paleozoic': '#4f81bd',
-    'Mesozoic': '#f1c232',
-    'Cenozoic': '#6aa84f'
-}
-
-for era, color in era_colors.items():
-    era_geo = geo_province[geo_province['ERA'] == era]
-    if len(era_geo) > 0:
-        era_geo.plot(ax=ax, color=color, label=era, edgecolor='black', linewidth=0.2)
-
-ax.set_title('Geologia de Tete por Era', fontsize=16)
-ax.legend(title='Era Geológica')
-ax.axis('off')
+geo.plot(
+    ax=ax,
+    column="Era",
+    categorical=True,
+    cmap="tab10",
+    legend=True,
+    legend_kwds={"loc": "center left", "bbox_to_anchor": (1, 0.5),
+                 "title": "Era geológica"},
+    edgecolor="black",
+    linewidth=0.2,
+)
+ax.set_title("Geologia de Tete por Era", fontsize=16)
+ax.axis("off")
+plt.tight_layout()
 plt.show()
 ```
 
@@ -472,7 +485,7 @@ from geomoz.spatial import (
 geo_nampula = geology_by_province(name_province="Nampula")
 
 # Geologia por distrito
-geo_tete = geology_by_district(name_district="Tete")
+geo_tete = geology_by_district(name_district="Cidade de Tete")
 
 # Link entre datasets
 villages_linked = link_village_district(name_district="Nampula")
@@ -549,7 +562,7 @@ Carrega dados geológicos.
 geology = geomoz.read_geology()
 
 # Filtrar por era
-proterozoic = geology[geology['ERA'] == 'Proterozoic']
+proterozoic = geology[geology['ERA'].str.upper().str.contains('PROTEROZOIC', na=False)]
 
 # Filtrar por litologia
 granites = geology[geology['ROCKTYPE1'].str.contains('granite', case=False)]

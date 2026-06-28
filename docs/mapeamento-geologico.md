@@ -79,7 +79,7 @@ province = geomoz.read_province(name_province="Zambézia")
 # Plotar
 fig, ax = plt.subplots(1, 1, figsize=(12, 8))
 province.boundary.plot(ax=ax, color='black', linewidth=2)
-geo.plot(ax=ax, column='Legend', cmap='tab20', alpha=0.8, legend=True)
+geo.plot(ax=ax, column='Legend', cmap='tab20', alpha=0.8, legend=True, legend_kwds={'loc': 'center left', 'bbox_to_anchor': (1, 0.5)})
 plt.show()
 ```
 

@@ -81,7 +81,7 @@ post_villages = villages[villages['Posto'] == 'Cidade de Nampula']
 geology = geomoz.read_geology()
 
 # Filtrar por era
-proterozoic = geology[geology['ERA'] == 'Proterozoic']
+proterozoic = geology[geology['ERA'].str.upper().str.contains('PROTEROZOIC', na=False)]
 
 # Filtrar por litologia
 granites = geology[geology['Legend'].str.contains('granite', case=False)]
@@ -103,7 +103,7 @@ quick_map(provinces, column='Provincia', title='Mapa de Províncias')
 
 # Plot personalizado
 fig, ax = plt.subplots(figsize=(12, 10))
-provinces.plot(ax=ax, column='Provincia', cmap='tab20', legend=True)
+provinces.plot(ax=ax, column='Provincia', cmap='tab20', legend=True, legend_kwds={'loc': 'center left', 'bbox_to_anchor': (1, 0.5)})
 ax.set_title('Províncias de Moçambique')
 plt.show()
 ```
@@ -192,7 +192,7 @@ from geomoz.spatial import (
 geo_nampula = geology_by_province(name_province="Nampula")
 
 # Geologia por distrito
-geo_tete = geology_by_district(name_district="Tete")
+geo_tete = geology_by_district(name_district="Cidade de Tete")
 
 # Link entre datasets
 linked_data = link_village_district(name_district="Nampula")
