@@ -1,8 +1,9 @@
 # GeoMoz - Dados Geográficos de Moçambique
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-0.1.2-blue.svg" alt="Version">
-  <img src="https://img.shields.io/badge/python-3.9%2B-blue.svg" alt="Python">
+  <a href="https://github.com/geolithicamz-hub/geomoz/actions/workflows/ci.yml"><img src="https://github.com/geolithicamz-hub/geomoz/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://pypi.org/project/geomoz/"><img src="https://img.shields.io/pypi/v/geomoz.svg" alt="PyPI"></a>
+  <a href="https://pypi.org/project/geomoz/"><img src="https://img.shields.io/pypi/pyversions/geomoz.svg" alt="Python"></a>
   <img src="https://img.shields.io/badge/R-4.0%2B-blue.svg" alt="R">
   <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License">
 </p>
