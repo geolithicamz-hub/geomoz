@@ -371,33 +371,77 @@ plt.show()
 
 ```python
 import folium
+from folium import plugins
 import geomoz
-
-# Carregar dados
-geology = geomoz.read_geology()
-province = geomoz.read_province(name_province="Maputo Província")
-
-# Interseção
 import geopandas as gpd
+import matplotlib.pyplot as plt
+import matplotlib.colors as colors
+from google.colab import files
+
+# 1. Carregamento de Dados
+geology = geomoz.read_geology()
+province = geomoz.read_province(name_province='Maputo Província')
+
+# 2. Processamento Espacial
 geology = geology.to_crs(province.crs)
 geo_province = gpd.overlay(geology, province, how='intersection')
 
-# Criar mapa
-m = folium.Map(location=[-25.5, 32], zoom_start=8)
+# 3. Mapeamento de Cores Profissional
+lithologies = geo_province['Legend'].unique()
+cmap = plt.get_cmap('tab20', len(lithologies))
+litho_colors_map = {l: colors.rgb2hex(cmap(i)) for i, l in enumerate(lithologies)}
 
-# Adicionar geologia
-folium.GeoJson(
+# 4. Inicialização do Mapa com Design Moderno
+m = folium.Map(
+    location=[-25.5, 32.5], 
+    zoom_start=9, 
+    tiles='cartodbpositron', # Fundo limpo e moderno
+    control_scale=True
+)
+
+# 5. Adição de Plugins de Alta Performance
+plugins.Fullscreen(position='topright', title='Tela Cheia', title_cancel='Sair').add_to(m)
+plugins.LocateControl(auto_start=False).add_to(m)
+plugins.MeasureControl(position='topleft', primary_length_unit='kilometers', secondary_length_unit='miles').add_to(m)
+plugins.Draw(export=True).add_to(m)
+
+# 6. Camada de Geologia com Interatividade Avançada
+geo_layer = folium.GeoJson(
     geo_province,
-    style_function=lambda x: {'fillColor': 'blue', 'fillOpacity': 0.5}
+    name='Geologia Detalhada',
+    style_function=lambda x: {
+        'fillColor': litho_colors_map.get(x['properties']['Legend'], '#cccccc'),
+        'color': '#2c3e50',
+        'weight': 0.5,
+        'fillOpacity': 0.7
+    },
+    highlight_function=lambda x: {'weight': 3, 'color': 'white', 'fillOpacity': 0.9},
+    popup=folium.GeoJsonPopup(
+        fields=['Legend', 'ERA'],
+        aliases=['Litologia:', 'Era Geológica:'],
+        localize=True,
+        labels=True,
+        style="background-color: white; color: #333; font-family: sans-serif; font-size: 12px; padding: 10px;"
+    )
 ).add_to(m)
 
-# Adicionar contorno
+# 7. Camada de Contorno da Província
 folium.GeoJson(
     province.boundary,
-    style_function=lambda x: {'color': 'red', 'weight': 2}
+    name='Limites Administrativos',
+    style_function=lambda x: {'color': '#e74c3c', 'weight': 2.5, 'dashArray': '5, 5'}
 ).add_to(m)
 
-m.save('mapa_interativo.html')
+# 8. Controle de Camadas
+folium.LayerControl(collapsed=False).add_to(m)
+
+# 9. Salvar e Baixar
+nome_pro = 'geoportal_maputo_pro.html'
+m.save(nome_pro)
+files.download(nome_pro)
+
+print(f'Aplicação Completa Gerada: {nome_pro}')
+m
 ```
 
 ---
@@ -408,36 +452,48 @@ O GeoMoz inclui funções utilitárias para visualização rápida:
 
 ```python
 from geomoz import (
-    quick_map,
+    read_province,
+    read_district,
+    read_admin_post,
+    read_village,
     plot_provinces,
-    plot_districts_by_province,
-    plot_administrative_hierarchy,
-    plot_villages_with_names,
-    plot_geology_by_area,
-    create_comparison_plot
+    plot_districts_by_province
 )
+import matplotlib.pyplot as plt
 
-# Mapa rápido
-quick_map(provinces, column='Provincia')
+# 1. Carregar dados base
+provincias = read_province()
 
-# Plot de províncias com nomes
-plot_provinces(show_names=True, save_path='mapa.png')
+# 2. Mapa Nacional
+plot_provinces(show_names=True)
 
-# Distritos de uma província
+# 3. Distritos de Nampula
 plot_districts_by_province("Nampula", show_names=True)
 
-# Hierarquia completa
-plot_administrative_hierarchy("Sofala")
+# 4. Solução para Hierarquia (Substituindo a função com erro por lógica manual)
+prov_name = "Sofala"
+prov_shape = read_province(name_province=prov_name)
+area = prov_shape.geometry.union_all()
 
-# Aldeias com nomes
-plot_villages_with_names("Cidade de Nampula")
+distritos = read_district()
+postos = read_admin_post()
+aldeias = read_village().to_crs(prov_shape.crs)
 
-# Geologia
-plot_geology_by_area(geo_data, column='Legend')
+# Filtragem espacial correta
+prov_dist = distritos[distritos.intersects(area)]
+prov_post = postos[postos.intersects(area)]
+prov_vill = aldeias[aldeias.intersects(area)]
 
-# Comparação lado a lado
-create_comparison_plot([tete, nampula, sofala],
-                        ["Tete", "Nampula", "Sofala"])
+fig, axes = plt.subplots(1, 3, figsize=(18, 6))
+prov_shape.plot(ax=axes[0], color='lightgrey')
+axes[0].set_title(f"Província: {prov_name}")
+prov_dist.plot(ax=axes[1], column='Distrito', cmap='tab20')
+axes[1].set_title(f"Distritos ({len(prov_dist)})")
+prov_vill.plot(ax=axes[2], color='red', markersize=1)
+axes[2].set_title(f"Aldeias ({len(prov_vill)})")
+plt.show()
+
+print(f"Análise de {prov_name} concluída com sucesso.")
 ```
 
 ---
@@ -486,18 +542,24 @@ from geomoz.spatial import (
     calculate_area
 )
 
-# Geologia por província
+# 1. Geologia por província
 geo_nampula = geology_by_province(name_province="Nampula")
 
-# Geologia por distrito
-geo_tete = geology_by_district(name_district="Cidade de Tete")
+# 2. Geologia por distrito 
+# Solução: Para evitar o erro de validação, usamos apenas o name_district e 
+# garantimos que o code_district seja interpretado como o padrão aceito pela lib.
+geo_zambezia = geology_by_district(code_district="all", name_district="Inhassunge")
 
-# Link entre datasets
+# 3. Link entre datasets (Nampula)
 villages_linked = link_village_district(name_district="Nampula")
 
-# Calcular área (com CRS projetado automaticamente)
-from geomoz.spatial import calculate_area
-areas = calculate_area(geology_gdf)
+# 4. Calcular área da geologia de Nampula
+geo_nampula_com_area = calculate_area(geo_nampula)
+
+print("Processamento concluído com sucesso.")
+print(f"Área total mapeada em Nampula: {geo_nampula_com_area['area_km2'].sum():.2f} km²")
+if not geo_manica.empty:
+    print(f"Principais unidades em Manica:\n{geo_manica['Legend'].head()}")
 ```
 
 ---
@@ -642,7 +704,7 @@ MIT License - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
 - **GitHub**: https://github.com/geolithica/geomoz
 - **Issues**: https://github.com/geolithica/geomoz/issues
-- **Email**: support@geolithica.com
+- **Email**: geolithicamz@gmail.com
 
 ---
 
