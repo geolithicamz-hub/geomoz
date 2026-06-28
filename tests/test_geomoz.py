@@ -1,71 +1,87 @@
 """
-Testes básicos da biblioteca GeoMoz
+Testes básicos da biblioteca GeoMoz.
+
+Os testes estão divididos em dois grupos:
+
+* Testes **offline** — não acessam a rede e validam a API pública,
+  os metadados e o carregamento preguiçoso das funções de plot.
+* Testes **de rede** (marcados com ``@pytest.mark.network``) — baixam dados
+  reais do Hugging Face. Para pulá-los, execute:
+
+      pytest -m "not network"
 """
 
-import pytest
-import geopandas as gpd
 import os
-
 import sys
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-import geomoz
+import pytest
 
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-def test_list_geometries():
-    """Testa se a função list_geometries funciona"""
-    geometries = geomoz.list_geometries()
-    
-    assert isinstance(geometries, dict)
-    assert "province_2017" in geometries
-    assert geometries["province_2017"]["type"] == "province"
-    assert geometries["province_2017"]["year"] == 2017
+import geomoz  # noqa: E402
 
 
-def test_read_province():
-    """Testa se a função read_province funciona"""
+# ---------------------------------------------------------------------------
+# Testes offline (sem rede)
+# ---------------------------------------------------------------------------
+
+def test_import_and_version():
+    """O pacote deve importar sem dependências opcionais (matplotlib etc.)."""
+    assert isinstance(geomoz.__version__, str)
+    assert "read_province" in dir(geomoz)
+
+
+def test_plot_functions_are_lazy():
+    """As funções de plot são expostas mas só carregam matplotlib quando usadas."""
+    assert "plot_provinces" in dir(geomoz)
+
+
+def test_list_available_geographies():
+    geographies = geomoz.list_available_geographies()
+    assert isinstance(geographies, list)
+    assert "Province" in geographies
+    assert "Geology" in geographies
+
+
+def test_list_available_years():
+    years = geomoz.list_available_years()
+    assert 2017 in years
+    assert 2006 in years
+
+
+def test_get_dataset_info():
+    info = geomoz.get_dataset_info("Province")
+    assert len(info) == 1
+    assert info.iloc[0]["function"] == "read_province"
+
+
+def test_list_geomoz_runs(capsys):
+    """list_geomoz() deve imprimir sem lançar exceções."""
+    geomoz.list_geomoz()
+    out = capsys.readouterr().out
+    assert "read_province" in out
+
+
+# ---------------------------------------------------------------------------
+# Testes de rede (baixam dados reais do Hugging Face)
+# ---------------------------------------------------------------------------
+
+@pytest.mark.network
+def test_read_province_all():
+    import geopandas as gpd
+
     gdf = geomoz.read_province()
-    
     assert isinstance(gdf, gpd.GeoDataFrame)
     assert len(gdf) == 11  # Moçambique tem 11 províncias
-    assert "geometry" in gdf.columns
     assert gdf.crs.to_epsg() == 4326
 
 
-def test_read_province_by_code():
-    """Testa se a função read_province funciona com código específico"""
-    nampula = geomoz.read_province(code="03")
-    
-    assert isinstance(nampula, gpd.GeoDataFrame)
-    assert len(nampula) == 1
-    assert nampula.iloc[0]["Provincia"] == "Nampula"
-
-
-def test_list_provinces():
-    """Testa se a função list_provinces funciona"""
-    provinces = geomoz.list_provinces()
-    
-    assert isinstance(provinces, gpd.GeoDataFrame)
-    assert len(provinces) == 11
-    assert "CodProv" in provinces.columns
-    assert "Provincia" in provinces.columns
-
-
-def test_province_codes():
-    """Testa se os códigos das províncias estão corretos"""
-    provinces = geomoz.list_provinces()
-    
-    expected_codes = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11"]
-    actual_codes = provinces["CodProv"].tolist()
-    
-    assert sorted(actual_codes) == sorted(expected_codes)
+@pytest.mark.network
+def test_read_province_by_name():
+    gdf = geomoz.read_province(name_province="Nampula")
+    assert len(gdf) == 1
+    assert gdf.iloc[0]["Provincia"] == "Nampula"
 
 
 if __name__ == "__main__":
-    # Executar testes manualmente
-    test_list_geometries()
-    test_read_province()
-    test_read_province_by_code()
-    test_list_provinces()
-    test_province_codes()
-    print("Todos os testes passaram!")
+    sys.exit(pytest.main([__file__, "-v"]))

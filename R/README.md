@@ -12,7 +12,7 @@ Inspired by the [`geobr`](https://github.com/ipeaGIT/geobr) package for Brazil.
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ```r
 # Install from GitHub
@@ -24,7 +24,7 @@ pak::pkg_install("geolithicamz-hub/geomozr")
 
 ---
 
-## ⚡ Quick Start
+## Quick Start
 
 ```r
 library(geomoz)
@@ -53,7 +53,7 @@ geology <- read_geology(era = "Proterozoic")
 
 ---
 
-## 📊 Available Data
+## Available Data
 
 | Dataset | Records | Function |
 |---------|---------|----------|
@@ -65,7 +65,7 @@ geology <- read_geology(era = "Proterozoic")
 
 ---
 
-## 🎨 Plotting Examples
+## Plotting Examples
 
 ### Plot Provinces
 ```r
@@ -95,14 +95,14 @@ ggplot(provinces) +
 
 ---
 
-## 📚 Documentation
+## Documentation
 
 - [Full Documentation](https://github.com/geolithicamz-hub/geomozr/blob/main/README.md) - Detailed documentation
 - [Examples](https://github.com/geolithicamz-hub/geomozr/tree/main/examples) - Code examples
 
 ---
 
-## 🛠️ Development
+## Development
 
 ```bash
 git clone https://github.com/geolithicamz-hub/geomozr.git
@@ -112,10 +112,10 @@ R CMD INSTALL .
 
 ---
 
-## 📄 License
+## License
 
 MIT License - see [LICENSE](LICENSE)
 
 ---
 
-**GeoMozR** - Geospatial data for Mozambique at your fingertips! 🗺️🇲🇿
+**GeoMozR** - Geospatial data for Mozambique at your fingertips!

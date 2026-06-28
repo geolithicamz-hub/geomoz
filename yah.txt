@@ -1,1 +1,0 @@
-python3 02_stratigraphic_column.py 2>&1

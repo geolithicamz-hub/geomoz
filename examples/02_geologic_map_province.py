@@ -81,7 +81,7 @@ def create_full_geological_map():
         handles=legend_elements,
         title="Litologias (code2006)",
         loc='center',
-        ncol=4,  # 🔥 MAIS COLUNAS AQUI
+        ncol=4,  # MAIS COLUNAS AQUI
         fontsize=8,
         title_fontsize=10,
         frameon=True

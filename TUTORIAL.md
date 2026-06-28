@@ -20,18 +20,18 @@
 
 O **GeoMoz** é uma biblioteca Python que facilita o acesso a dados geográficos de Moçambique. Ele permite:
 
-- 📍 Acessar divisões administrativas (províncias, distritos, postos, aldeias)
-- 🗺️ Visualizar dados em mapas
-- 🪨 Analisar dados geológicos
-- 🌐 Criar mapas interativos para web
-- ⚡ Otimizar performance com cache
+- Acessar divisões administrativas (províncias, distritos, postos, aldeias)
+- Visualizar dados em mapas
+- Analisar dados geológicos
+- Criar mapas interativos para web
+- Otimizar performance com cache
 
 ### Para quem é este tutorial?
 
-- 🎓 **Estudantes** de geologia, geografia, SIG
-- 🔬 **Pesquisadores** que trabalham com dados de Moçambique
-- 💼 **Profissionais** em consultoria ambiental e geotecnologia
-- 💻 **Desenvolvedores** que precisam de dados geoespaciais
+- **Estudantes** de geologia, geografia, SIG
+- **Pesquisadores** que trabalham com dados de Moçambique
+- **Profissionais** em consultoria ambiental e geotecnologia
+- **Desenvolvedores** que precisam de dados geoespaciais
 
 ---
 
@@ -55,7 +55,7 @@ print(geomoz.__version__)
 
 # Testar carregamento
 provinces = geomoz.read_province()
-print(f"✅ GeoMoz funcionando! {len(provinces)} províncias carregadas.")
+print(f"GeoMoz funcionando! {len(provinces)} províncias carregadas.")
 ```
 
 ### Passo 3: Configuração de Cache (Opcional mas Recomendado)
@@ -63,7 +63,7 @@ print(f"✅ GeoMoz funcionando! {len(provinces)} províncias carregadas.")
 ```python
 # O cache acelera carregamentos futuros
 from geomoz.utils.cache import print_cache
-print_cache()  # Ver informações do cache
+print_cache() # Ver informações do cache
 ```
 
 ---
@@ -83,7 +83,7 @@ provinces = geomoz.read_province()
 # Ver estrutura
 print(provinces.head())
 print(provinces.columns)
-print(type(provinces))  # <class 'geopandas.geodataframe.GeoDataFrame'>
+print(type(provinces)) # <class 'geopandas.geodataframe.GeoDataFrame'>
 ```
 
 ### Sistema de Coordenadas (CRS)
@@ -92,10 +92,10 @@ Todos os dados usam **EPSG:4326** (WGS 84), que é o padrão internacional:
 
 ```python
 # Verificar CRS
-print(provinces.crs)  # epsg:4326
+print(provinces.crs) # epsg:4326
 
 # Converter para outro CRS se necessário
-provinces_utm = provinces.to_crs(epsg=32736)  # UTM zona 36S
+provinces_utm = provinces.to_crs(epsg=32736) # UTM zona 36S
 ```
 
 ---
@@ -116,7 +116,7 @@ provinces = geomoz.read_province()
 print(f"Total: {len(provinces)} províncias")
 print("\nLista de províncias:")
 for idx, row in provinces.iterrows():
-    print(f"  {row['CodProv']}: {row['Provincia']}")
+    print(f" {row['CodProv']}: {row['Provincia']}")
 
 # Carregar província específica
 maputo = geomoz.read_province(name_province="Maputo Província")
@@ -170,7 +170,7 @@ print(f"Total de postos: {len(posts)}")
 nampula_posts = posts[posts['Distrito'] == 'Nampula']
 print(f"Distrito Nampula tem {len(nampula_posts)} postos:")
 for idx, row in nampula_posts.iterrows():
-    print(f"  • {row['Posto']}")
+    print(f" • {row['Posto']}")
 ```
 
 ### Lição 1.4: Aldeias (Localidades)
@@ -178,7 +178,7 @@ for idx, row in nampula_posts.iterrows():
 **Conceito**: Os postos são divididos em aldeias/localidades. Total: 11.524!
 
 ```python
-# ⚠️ Usar cache para aldeias - são muitos dados!
+# Usar cache para aldeias - são muitos dados!
 from geomoz.utils.cache import CachedGeoMoz
 
 villages = CachedGeoMoz.read_village()
@@ -206,8 +206,8 @@ geology = geomoz.read_geology()
 
 # Estrutura
 print(geology.columns.tolist())
-# ['code2006', 'Legend', 'UNITNAME', 'ROCKTYPE1', 'ROCKTYPE2', 
-#  'SUITE', 'AGE1', 'ERA', 'geometry']
+# ['code2006', 'Legend', 'UNITNAME', 'ROCKTYPE1', 'ROCKTYPE2',
+# 'SUITE', 'AGE1', 'ERA', 'geometry']
 
 # Ver eras geológicas disponíveis
 print(geology['ERA'].value_counts())
@@ -229,11 +229,11 @@ print(f"Unidades Proterozoicas: {len(proterozoic)}")
 
 # Cores geologicamente corretas
 era_colors = {
-    'Archean': '#6b3d2e',      # Marrom escuro (mais antigo)
-    'Proterozoic': '#a0522d',   # Marrom avermelhado
-    'Paleozoic': '#4f81bd',     # Azul
-    'Mesozoic': '#f1c232',      # Amarelo/dourado
-    'Cenozoic': '#6aa84f',      # Verde (mais recente)
+    'Archean': '#6b3d2e', # Marrom escuro (mais antigo)
+    'Proterozoic': '#a0522d', # Marrom avermelhado
+    'Paleozoic': '#4f81bd', # Azul
+    'Mesozoic': '#f1c232', # Amarelo/dourado
+    'Cenozoic': '#6aa84f', # Verde (mais recente)
 }
 ```
 
@@ -364,9 +364,9 @@ geology = read_geology()
 
 # Interseção: o que está dentro da província
 geology_in_province = gpd.overlay(
-    geology, 
-    province, 
-    how='intersection'  # Mantém apenas sobreposição
+    geology,
+    province,
+    how='intersection' # Mantém apenas sobreposição
 )
 
 print(f"Unidades geológicas em Manica: {len(geology_in_province)}")
@@ -475,7 +475,7 @@ for idx, row in geo_province.iterrows():
         Era: {row['ERA']}<br>
         Código: {row['code2006']}
     """
-    
+
     folium.GeoJson(
         row.geometry.__geo_interface__,
         popup=folium.Popup(popup_text, max_width=200),
@@ -577,7 +577,7 @@ print(results_df.nlargest(3, 'Mesozoic'))
 ```python
 from geomoz.utils.cache import CachedGeoMoz
 
-# ✅ Bem rápido após a primeira vez
+# Bem rápido após a primeira vez
 villages = CachedGeoMoz.read_village()
 geology = CachedGeoMoz.read_geology()
 posts = CachedGeoMoz.read_admin_post()
@@ -610,14 +610,14 @@ px.choropleth(provinces, geojson=provinces.geometry.__geo_interface__,
 ### Dica 4: Filtragem Eficiente
 
 ```python
-# ❌ Lento: carregar tudo e filtrar
+# Lento: carregar tudo e filtrar
 villages = geomoz.read_village()
 nampula_villages = villages[villages['Provincia'] == 'Nampula']
 
-# ✅ Mais rápido: filtrar durante carregamento (quando possível)
+# Mais rápido: filtrar durante carregamento (quando possível)
 # Ou usar cache
 from geomoz.utils.cache import CachedGeoMoz
-villages = CachedGeoMoz.read_village()  # Cache é mais rápido
+villages = CachedGeoMoz.read_village() # Cache é mais rápido
 nampula_villages = villages[villages['Provincia'] == 'Nampula']
 ```
 
@@ -626,12 +626,12 @@ nampula_villages = villages[villages['Provincia'] == 'Nampula']
 ## Conclusão
 
 Você aprendeu:
-- ✅ A instalar e configurar o GeoMoz
-- ✅ A carregar divisões administrativas
-- ✅ A trabalhar com dados geológicos
-- ✅ A criar visualizações e mapas
-- ✅ A fazer análises espaciais
-- ✅ A criar mapas web interativos
+- A instalar e configurar o GeoMoz
+- A carregar divisões administrativas
+- A trabalhar com dados geológicos
+- A criar visualizações e mapas
+- A fazer análises espaciais
+- A criar mapas web interativos
 
 ### Próximos Passos
 
@@ -641,4 +641,4 @@ Você aprendeu:
 
 ---
 
-**GeoMoz** - Mapeando Moçambique, uma linha de código de cada vez! 🗺️🇲🇿
+**GeoMoz** - Mapeando Moçambique, uma linha de código de cada vez!

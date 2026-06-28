@@ -9,10 +9,10 @@ from .utils.data import get_data_path
 
 
 def read_geology(
-    code_geology: Union[str, int] = "all", 
+    code_geology: Union[str, int] = "all",
     name_geology: str = None,
-    year: int = 2006, 
-    simplified: bool = True, 
+    year: int = 2006,
+    simplified: bool = True,
     verbose: bool = False,
     # Geology-specific parameters
     code2006: str = None,
@@ -43,7 +43,7 @@ def read_geology(
     Parameters
     ----------
     code_geology : str or int, optional
-        The code of a geology unit. 
+        The code of a geology unit.
         If code_geology="all", all geology units will be loaded (Default).
     name_geology : str, optional
         The name of a geology unit. Use this instead of code_geology
@@ -83,64 +83,64 @@ def read_geology(
     Examples
     --------
     >>> from geomoz import read_geology
-    >>> 
+    >>>
     >>> # Load all geology units
     >>> geology = read_geology()
-    >>> 
+    >>>
     >>> # Load specific geology by code
     >>> unit = read_geology(code_geology="001")
-    >>> 
+    >>>
     >>> # Load specific geology by name
     >>> unit = read_geology(name_geology="Granite")
-    >>> 
+    >>>
     >>> # Load with geological filters
     >>> granites = read_geology(SUITE="Granite")
-    >>> 
+    >>>
     >>> # Load with verbose output
     >>> geology = read_geology(verbose=True)
     """
-    
+
     # Validate input parameters
     if code_geology != "all" and name_geology is not None:
         raise ValueError("Cannot specify both code_geology and name_geology. Use one or the other.")
-    
+
     # Get data path from Hugging Face
     filename = "geology_2006.gpkg"
-    
+
     if verbose:
         print(f"Loading geology data from Hugging Face: {filename}")
-    
+
     try:
         # Download and load data from Hugging Face
         data_path = get_data_path(filename)
-        
+
         if verbose:
             print(f"Data loaded from: {data_path}")
-        
+
         gdf = gpd.read_file(data_path)
-        
+
     except Exception as e:
         raise RuntimeError(f"Failed to load geology data: {str(e)}")
-    
+
     # Apply filters
     if code_geology != "all":
         # Filter by code
         if isinstance(code_geology, str):
             code_geology = code_geology.zfill(3)  # Ensure 3-digit format
-        
+
         gdf = gdf[gdf['code2006'] == str(code_geology)]
-        
+
         if verbose:
             print(f"Filtered to geology code: {code_geology}")
-    
+
     elif name_geology is not None:
         # Filter by name (case insensitive)
         mask = gdf['Legend'].str.lower() == name_geology.lower()
         gdf = gdf[mask]
-        
+
         if verbose:
             print(f"Filtered to geology name: {name_geology}")
-    
+
     # Apply geological attribute filters
     geology_filters = {
         'code2006': code2006,
@@ -162,24 +162,24 @@ def read_geology(
         'age': age,
         'TYPE': TYPE
     }
-    
+
     for column, value in geology_filters.items():
         if value is not None and column in gdf.columns:
             if verbose:
                 print(f"Filtering by {column}: {value}")
-            
+
             if isinstance(value, str):
                 mask = gdf[column].str.lower() == value.lower()
             else:
                 mask = gdf[column] == value
-            
+
             gdf = gdf[mask]
-    
+
     # Validate results
     if len(gdf) == 0:
         if code_geology != "all":
             raise ValueError(f"No geology found with code: {code_geology}")
         elif name_geology is not None:
             raise ValueError(f"No geology found with name: {name_geology}")
-    
+
     return gdf.reset_index(drop=True)

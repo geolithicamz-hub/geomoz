@@ -9,10 +9,10 @@ from .utils.data import get_data_path
 
 
 def read_district(
-    code_district: Union[str, int] = "all", 
+    code_district: Union[str, int] = "all",
     name_district: str = None,
-    year: int = 2017, 
-    simplified: bool = True, 
+    year: int = 2017,
+    simplified: bool = True,
     verbose: bool = False
 ) -> gpd.GeoDataFrame:
     """
@@ -24,7 +24,7 @@ def read_district(
     Parameters
     ----------
     code_district : str or int, optional
-        The code of a district. 
+        The code of a district.
         If code_district="all", all districts will be loaded (Default).
     name_district : str, optional
         The name of a district (e.g., "Lichinga"). Use this instead of code_district
@@ -49,66 +49,66 @@ def read_district(
     Examples
     --------
     >>> from geomoz import read_district
-    >>> 
+    >>>
     >>> # Load all districts
     >>> districts = read_district()
-    >>> 
+    >>>
     >>> # Load specific district by code
     >>> lichinga = read_district(code_district="01")
-    >>> 
+    >>>
     >>> # Load specific district by name
     >>> lichinga = read_district(name_district="Lichinga")
-    >>> 
+    >>>
     >>> # Load with verbose output
     >>> districts = read_district(verbose=True)
     """
-    
+
     # Validate input parameters
     if code_district != "all" and name_district is not None:
         raise ValueError("Cannot specify both code_district and name_district. Use one or the other.")
-    
+
     # Get data path from Hugging Face
     filename = "district_2017.gpkg"
-    
+
     if verbose:
         print(f"Loading district data from Hugging Face: {filename}")
-    
+
     try:
         # Download and load data from Hugging Face
         data_path = get_data_path(filename)
-        
+
         if verbose:
             print(f"Data loaded from: {data_path}")
-        
+
         gdf = gpd.read_file(data_path)
-        
+
     except Exception as e:
         raise RuntimeError(f"Failed to load district data: {str(e)}")
-    
+
     # Apply filters
     if code_district != "all":
         # Filter by code
         if isinstance(code_district, str):
             code_district = code_district.zfill(2)  # Ensure 2-digit format
-        
+
         gdf = gdf[gdf['CodDist'] == str(code_district)]
-        
+
         if verbose:
             print(f"Filtered to district code: {code_district}")
-    
+
     elif name_district is not None:
         # Filter by name (case insensitive)
         mask = gdf['Distrito'].str.lower() == name_district.lower()
         gdf = gdf[mask]
-        
+
         if verbose:
             print(f"Filtered to district name: {name_district}")
-    
+
     # Validate results
     if len(gdf) == 0:
         if code_district != "all":
             raise ValueError(f"No district found with code: {code_district}")
         elif name_district is not None:
             raise ValueError(f"No district found with name: {name_district}")
-    
+
     return gdf.reset_index(drop=True)

@@ -4,10 +4,10 @@ build-backend = "hatchling.build"
 
 [project]
 name = "geomoz"
-version = "0.1.1"
+dynamic = ["version"]
 description = "Geospatial data library for Mozambique with geological and administrative datasets"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 
 authors = [
     { name = "Hélder Gonçalves Félix Traquinho", email = "heltrakinho@gmail.com" }
@@ -56,6 +56,7 @@ dev = [
 
 viz = [
     "matplotlib>=3.5.0",
+    "numpy>=1.21.0",
     "folium>=0.12.0",
     "contextily>=1.2.0",
     "seaborn>=0.11.0"
@@ -66,6 +67,21 @@ Homepage = "https://geolithica.com"
 Repository = "https://github.com/geolithicamz-hub/geomoz"
 Documentation = "https://github.com/geolithicamz-hub/geomoz/blob/main/README.md"
 "Bug Tracker" = "https://github.com/geolithicamz-hub/geomoz/issues"
+
+[tool.hatch.version]
+path = "geomoz/__init__.py"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "network: tests that download real data from Hugging Face (deselect with '-m \"not network\"')",
+]
+
+[tool.hatch.build.targets.sdist]
+# Keep the source distribution lean: ship only the package and essential
+# metadata. Heavy docs assets (example PNGs/HTML maps) and the R package
+# live in the git repo, not on PyPI.
+only-include = ["geomoz", "README.md", "LICENSE", "requirements.txt"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["geomoz"]

@@ -17,10 +17,10 @@ def create_district_geological_map():
     # DADOS - NÍVEL DISTRITAL
     # -------------------------
     geology = geomoz.read_geology()
-    
+
     # Selecionar distrito específico (exemplo: Chimoio em Manica)
     district = geomoz.read_district(name_district="Mocuba")
-    
+
     # Ou pode usar código:
     # district = geomoz.read_district(code_district="MA-01")
 
@@ -29,7 +29,7 @@ def create_district_geological_map():
 
     # Interseção com distrito
     geology = gpd.overlay(geology, district, how='intersection')
-    
+
     print(f"Total de unidades geológicas no distrito: {len(geology)}")
 
     # -------------------------
@@ -40,7 +40,7 @@ def create_district_geological_map():
 
     classes = sorted(geology[column].unique())
     print(f"Total de classes litológicas: {len(classes)}")
-    
+
     # Mostrar distribuição
     print("\nDistribuição por litologia:")
     for cls, count in geology[column].value_counts().items():
@@ -115,8 +115,8 @@ def create_district_geological_map():
         dpi=300,
         bbox_inches='tight'
     )
-    
-    print("\n✅ Mapa distrital salvo: mapa_geologico_distrital_Mocuba.png")
+
+    print("\nMapa distrital salvo: mapa_geologico_distrital_Mocuba.png")
 
     plt.show()
 

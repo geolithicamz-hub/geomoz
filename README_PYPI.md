@@ -1,4 +1,4 @@
-# GeoMoz 🇲🇿
+# GeoMoz
 
 [![PyPI version](https://img.shields.io/pypi/v/geomoz.svg)](https://pypi.org/project/geomoz/)
 [![Python versions](https://img.shields.io/pypi/pyversions/geomoz.svg)](https://pypi.org/project/geomoz/)
@@ -7,7 +7,7 @@
 
 **Geospatial data library for Mozambique with automatic Hugging Face integration**
 
-## 🚀 Installation
+## Installation
 
 ### Basic Installation
 
@@ -27,7 +27,7 @@ pip install geomoz[complete]
 pip install geomoz[dev]
 ```
 
-## 📦 Quick Start
+## Quick Start
 
 ```python
 import geomoz
@@ -50,46 +50,46 @@ area = geomoz.calculate_area(geo_zambezia, unit="km2")
 print(f"Total area: {area['area_km2'].sum():.2f} km²")
 ```
 
-## 🎯 Main Features
+## Main Features
 
-### 📊 Data Access
+### Data Access
 - **Provinces**: 11 administrative provinces (2017)
 - **Districts**: 161 administrative districts (2017)
 - **Admin Posts**: 459 administrative posts (2017)
 - **Villages**: All villages (2017)
 - **Geology**: 12,533 geological units (2006)
 
-### 🔄 Automatic Integration
+### Automatic Integration
 - **Hugging Face Hub**: Automatic download and caching
 - **Smart Cache**: Local storage in `~/.cache/geomoz/`
 - **Version Control**: Data versioned and tracked
 - **Offline Support**: Works without internet after first download
 
-### 🌍 CRS Handling
+### CRS Handling
 - **Automatic UTM Detection**: Zones 36S (30-36°E) and 37S (36-42°E)
 - **Cross-Boundary Support**: Handles areas crossing UTM boundaries
 - **Precise Calculations**: Areas in km² using projected CRS
 - **Visualization Ready**: Maintains WGS84 for mapping
 
-### 🔧 Spatial Operations
+### Spatial Operations
 - **Geology by Administrative Unit**: `geology_by_province()`, `geology_by_district()`
 - **Area Calculations**: `calculate_area()` with automatic CRS handling
 - **Spatial Joins**: Link administrative boundaries with geological data
 - **Flexible Filtering**: Filter by geological attributes (suite, formation, era, etc.)
 
-## 📋 Available Functions
+## Available Functions
 
 ### Data Reading Functions
 ```python
 # Administrative boundaries
-geomoz.read_province()           # All provinces
-geomoz.read_district()           # All districts  
-geomoz.read_admin_post()          # All admin posts
-geomoz.read_village()             # All villages
+geomoz.read_province() # All provinces
+geomoz.read_district() # All districts
+geomoz.read_admin_post() # All admin posts
+geomoz.read_village() # All villages
 
 # Geology data
-geomoz.read_geology()             # All geology
-geomoz.read_geology(SUITE="Granite")  # Filtered geology
+geomoz.read_geology() # All geology
+geomoz.read_geology(SUITE="Granite") # Filtered geology
 ```
 
 ### Spatial Analysis Functions
@@ -118,7 +118,7 @@ print(f"Cache size: {cache_info['size_mb']:.2f} MB")
 clear_cache()
 ```
 
-## 🗃️ Data Sources
+## Data Sources
 
 All data is automatically downloaded from the **[GeoMoz Dataset](https://huggingface.co/geolithicamz/geomoz-data)** on Hugging Face:
 
@@ -135,7 +135,7 @@ All data is automatically downloaded from the **[GeoMoz Dataset](https://hugging
 - **Year**: Administrative (2017), Geology (2006)
 - **Coverage**: Complete national coverage of Mozambique
 
-## 🌍 CRS Information
+## CRS Information
 
 ### UTM Zones for Mozambique
 - **Zone 36S**: 30°E to 36°E (EPSG:32736) - Southern and central provinces
@@ -143,12 +143,12 @@ All data is automatically downloaded from the **[GeoMoz Dataset](https://hugging
 
 ### Provinces Crossing UTM Boundaries
 - **Sofala**: Crosses 36°E meridian
-- **Zambézia**: Crosses 36°E meridian  
+- **Zambézia**: Crosses 36°E meridian
 - **Niassa**: Crosses 36°E meridian
 
 The library automatically detects and handles cross-boundary areas!
 
-## 📊 Examples
+## Examples
 
 ### Basic Usage
 ```python
@@ -172,7 +172,7 @@ geo_zambezia = geomoz.geology_by_province(
 
 # Calculate areas by geological unit
 area_by_suite = geo_zambezia.groupby('SUITE').apply(
-    lambda x: x.geometry.area.sum() / 1_000_000  # Convert to km²
+    lambda x: x.geometry.area.sum() / 1_000_000 # Convert to km²
 )
 
 print("Areas by geological suite (km²):")
@@ -205,7 +205,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-## 🔧 Development
+## Development
 
 ### Installation from Source
 ```bash
@@ -221,12 +221,12 @@ python -m pytest tests/
 
 ### Building for Distribution
 ```bash
-python build_and_publish.py build    # Build only
-python build_and_publish.py test     # Build and test
-python build_and_publish.py pypi     # Build and publish to PyPI
+python build_and_publish.py build # Build only
+python build_and_publish.py test # Build and test
+python build_and_publish.py pypi # Build and publish to PyPI
 ```
 
-## 📄 Dependencies
+## Dependencies
 
 ### Core Dependencies
 - `geopandas>=0.14.0` - Geospatial data handling
@@ -251,11 +251,11 @@ python build_and_publish.py pypi     # Build and publish to PyPI
 - `wheel>=0.37.0` - Building wheels
 - `build>=0.7.0` - Modern build system
 
-## 📜 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
@@ -266,7 +266,7 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📞 Support
+## Support
 
 If you have any questions or need help using GeoMoz:
 
@@ -275,25 +275,25 @@ If you have any questions or need help using GeoMoz:
 - **Discussions**: [GitHub Discussions](https://github.com/geolithicamz/geomoz/discussions)
 - **Email**: contact@geolithica.org
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **Hugging Face**: For hosting the dataset and providing the Hub infrastructure
 - **Geopandas**: For the excellent geospatial data handling framework
 - **Government of Mozambique**: For making the geospatial data available
 - **Geolithica Team**: For the development and maintenance of this library
 
-## 📊 Changelog
+## Changelog
 
 ### Version 1.0.0
-- ✨ **NEW**: Complete Hugging Face integration
-- ✨ **NEW**: Automatic UTM zone detection and handling
-- ✨ **NEW**: Cross-boundary area support
-- ✨ **NEW**: Smart caching system
-- ✨ **NEW**: Precise area calculations
-- 🔧 **IMPROVED**: All functions now use automatic download
-- 🔧 **IMPROVED**: Better error handling and user experience
-- 🔧 **IMPROVED**: Comprehensive documentation and examples
+- **NEW**: Complete Hugging Face integration
+- **NEW**: Automatic UTM zone detection and handling
+- **NEW**: Cross-boundary area support
+- **NEW**: Smart caching system
+- **NEW**: Precise area calculations
+- **IMPROVED**: All functions now use automatic download
+- **IMPROVED**: Better error handling and user experience
+- **IMPROVED**: Comprehensive documentation and examples
 
 ---
 
-**GeoMoz** - *Geospatial data for Mozambique, simplified and automated* 🇲🇿
+**GeoMoz** - *Geospatial data for Mozambique, simplified and automated*

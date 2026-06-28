@@ -28,7 +28,7 @@ print("\n3. Estatísticas por unidade geológica:")
 if 'Legend' in geo_with_area.columns:
     # Agrupar por Legend e somar áreas
     area_by_legend = geo_with_area.groupby('Legend')['area_km2'].sum().sort_values(ascending=False)
-    
+
     print("   Top 10 unidades por área:")
     for i, (legend, area) in enumerate(area_by_legend.head(10).items(), 1):
         count = len(geo_with_area[geo_with_area['Legend'] == legend])

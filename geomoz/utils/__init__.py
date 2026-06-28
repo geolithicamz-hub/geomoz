@@ -37,7 +37,7 @@ __all__ = [
 if UTILS_AVAILABLE:
     __all__.extend([
         "select_metadata",
-        "download_gpkg", 
+        "download_gpkg",
         "validate_code",
         "validate_name",
         "advanced_download_gpkg",
