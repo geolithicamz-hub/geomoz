@@ -39,16 +39,16 @@ def read_village(
     Returns
     -------
     gpd.GeoDataFrame
-        Geodataframe containing village data with columns:
-        - CodPov: Village code
+        Geodataframe with normalized columns consistent with the other
+        administrative layers:
         - Povoacao: Village name
-        - CodPosto: Administrative post code
         - Posto: Administrative post name
-        - CodDist: District code
         - Distrito: District name
-        - CodProv: Province code
         - Provincia: Province name
-        - geometry: Polygon geometries
+        - Latitude, Longitude: Point coordinates (when available)
+        - geometry: Geometries
+
+        The original source columns are preserved after these.
 
     Examples
     --------
@@ -57,8 +57,8 @@ def read_village(
     >>> # Load all villages
     >>> villages = read_village()
     >>>
-    >>> # Load specific village by code
-    >>> village = read_village(code_village="01")
+    >>> # Filter by province (consistent with read_district/read_admin_post)
+    >>> nampula = villages[villages["Provincia"] == "Nampula"]
     >>>
     >>> # Load specific village by name
     >>> village = read_village(name_village="Lichinga")
@@ -89,20 +89,41 @@ def read_village(
     except Exception as e:
         raise RuntimeError(f"Failed to load village data: {str(e)}")
 
+    # Normalize the heterogeneous source schema into the standard column names
+    # used across GeoMoz, so villages can be filtered the same way as the other
+    # administrative layers. Only map columns that actually exist.
+    rename_map = {
+        "NAME": "Povoacao",
+        "POSTO": "Posto",
+        "DISTRITO": "Distrito",
+        "PROVINCIA": "Provincia",
+        "LATITUDE": "Latitude",
+        "LONGITUDE": "Longitude",
+    }
+    for src, dst in rename_map.items():
+        if src in gdf.columns and dst not in gdf.columns:
+            gdf[dst] = gdf[src]
+
+    # Put the normalized columns first for readability
+    preferred = [c for c in ["Povoacao", "Posto", "Distrito", "Provincia",
+                             "Latitude", "Longitude"] if c in gdf.columns]
+    rest = [c for c in gdf.columns if c not in preferred and c != "geometry"]
+    gdf = gdf[preferred + rest + ["geometry"]]
+
     # Apply filters
     if code_village != "all":
-        # Filter by code
-        if isinstance(code_village, str):
-            code_village = code_village.zfill(2)  # Ensure 2-digit format
-
-        gdf = gdf[gdf['CodPov'] == str(code_village)]
+        # Villages have no standardized short code; match the source ID field
+        code_col = "ID" if "ID" in gdf.columns else ("CODIGO_CEN" if "CODIGO_CEN" in gdf.columns else None)
+        if code_col is None:
+            raise ValueError("This dataset has no village code column to filter by; use name_village instead.")
+        gdf = gdf[gdf[code_col].astype(str) == str(code_village)]
 
         if verbose:
             print(f"Filtered to village code: {code_village}")
 
     elif name_village is not None:
         # Filter by name (case insensitive)
-        mask = gdf['Povoacao'].str.lower() == name_village.lower()
+        mask = gdf["Povoacao"].astype(str).str.lower() == name_village.lower()
         gdf = gdf[mask]
 
         if verbose:

@@ -5,6 +5,35 @@ Todas as mudanças relevantes deste projeto são documentadas neste ficheiro.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/),
 e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
+## [0.1.4] - 2026-06-28
+
+### Corrigido
+- `geology_by_district` e `geology_by_admin_post` passavam código **e**
+  nome ao mesmo tempo para as funções de leitura, gerando
+  `ValueError: Cannot specify both ...`. Agora passam apenas o filtro
+  fornecido.
+- `read_village` referenciava colunas inexistentes (`CodPov`/`Povoacao`),
+  quebrando qualquer filtro. As colunas passam a ser **normalizadas** para
+  `Povoacao`, `Posto`, `Distrito`, `Provincia`, `Latitude`, `Longitude`,
+  consistentes com as outras camadas (ex.: `villages[villages["Provincia"]
+  == "Nampula"]` agora funciona).
+- `plot_provinces` usava `matplotlib.cm.get_cmap`, removido no matplotlib
+  3.9+. Substituído por `plt.get_cmap`.
+
+### Alterado
+- As legendas dos utilitários de plot (`quick_map`,
+  `plot_villages_with_names`) passam a ficar **fora** da área do mapa, para
+  não sobrepor a figura.
+- Guias de uso revistos: exemplos de mapa por era geológica agora
+  normalizam a coluna `ERA` (que mistura maiúsculas/subdivisões) e
+  desenham sempre um mapa; nomes de distrito corrigidos
+  (ex.: `"Cidade de Tete"`); legendas colocadas fora do mapa.
+
+### Adicionado
+- Testes de integração (marcados como `network`) cobrindo os fluxos reais
+  dos guias: filtragem por província, `geology_by_*`, classificação de
+  eras e renderização dos utilitários de plot.
+
 ## [0.1.3] - 2026-06-28
 
 ### Corrigido
@@ -58,6 +87,7 @@ e o projeto adere ao [Versionamento Semântico](https://semver.org/lang/pt-BR/).
   postos administrativos, localidades e geologia de Moçambique, com
   download automático a partir do Hugging Face.
 
+[0.1.4]: https://github.com/geolithicamz-hub/geomoz/releases/tag/v0.1.4
 [0.1.3]: https://github.com/geolithicamz-hub/geomoz/releases/tag/v0.1.3
 [0.1.2]: https://github.com/geolithicamz-hub/geomoz/releases/tag/v0.1.2
 [0.1.1]: https://github.com/geolithicamz-hub/geomoz/releases/tag/v0.1.1
