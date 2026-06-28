@@ -28,7 +28,7 @@ def list_geomoz():
 
     for i in range(len(metadata)):
         row = metadata.iloc[i]
-        
+
         print(f"Function: {row['function']}")
         print(f"Geography available: {row['geography']}")
         print(f"Years available: {row['year']}")
@@ -39,13 +39,13 @@ def list_geomoz():
 def list_available_geographies():
     """
     List all available geographies in GeoMoz
-    
+
     Returns
     -------
     list
         Available geography types
     """
-    
+
     metadata = load_metadata()
     return sorted(metadata['geography'].unique())
 
@@ -53,13 +53,13 @@ def list_available_geographies():
 def list_available_years():
     """
     List all available years in GeoMoz
-    
+
     Returns
     -------
     list
         Available years
     """
-    
+
     metadata = load_metadata()
     return sorted(metadata['year'].unique())
 
@@ -67,27 +67,27 @@ def list_available_years():
 def get_dataset_info(geography: str, year: int = None) -> pd.DataFrame:
     """
     Get detailed information about a specific dataset
-    
+
     Parameters
     ----------
     geography : str
         Type of geography
     year : int, optional
         Year of the data
-        
+
     Returns
     -------
     pd.DataFrame
         Dataset information
     """
-    
+
     metadata = load_metadata()
-    
+
     # Filter by geography
     filtered = metadata[metadata['geography'].str.lower() == geography.lower()]
-    
+
     # Filter by year if specified
     if year is not None:
         filtered = filtered[filtered['year'] == year]
-    
+
     return filtered

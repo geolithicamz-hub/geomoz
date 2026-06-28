@@ -15,10 +15,10 @@ import matplotlib.patches as mpatches
 
 def create_geological_map():
 
-    print("🗺️ Criando mapa geológico CORRETO...")
+    print("Criando mapa geológico CORRETO...")
 
     # -------------------------
-    # 📥 CARREGAR DADOS
+    # CARREGAR DADOS
     # -------------------------
     geology = geomoz.read_geology()
     provinces = geomoz.read_province()
@@ -28,7 +28,7 @@ def create_geological_map():
     provinces = provinces.to_crs(epsg=4326)
 
     # -------------------------
-    # 🧠 CLASSIFICAÇÃO CORRETA (ERA)
+    # CLASSIFICAÇÃO CORRETA (ERA)
     # -------------------------
     def classify_geology(row):
         era = str(row['ERA']).lower() if pd.notna(row['ERA']) else ''
@@ -49,11 +49,11 @@ def create_geological_map():
     geology['class'] = geology.apply(classify_geology, axis=1)
 
     # Debug (opcional)
-    print("\n📊 Distribuição por ERA:")
+    print("\nDistribuição por ERA:")
     print(geology['class'].value_counts())
 
     # -------------------------
-    # 🎨 CORES GEOLOGICAMENTE CORRETAS
+    # CORES GEOLOGICAMENTE CORRETAS
     # -------------------------
     colors = {
         'Archean': '#6b3d2e',
@@ -65,7 +65,7 @@ def create_geological_map():
     }
 
     # -------------------------
-    # 🗺️ MAPA
+    # MAPA
     # -------------------------
     fig = plt.figure(figsize=(14, 10))
     ax = plt.axes(projection=ccrs.PlateCarree())
@@ -77,7 +77,7 @@ def create_geological_map():
     ax.add_feature(cfeature.BORDERS, linestyle=":", alpha=0.5)
 
     # -------------------------
-    # 🎨 PLOT GEOLOGIA (por classe)
+    # PLOT GEOLOGIA (por classe)
     # -------------------------
     for geo_class, color in colors.items():
         subset = geology[geology['class'] == geo_class]
@@ -92,17 +92,17 @@ def create_geological_map():
             )
 
     # -------------------------
-    # 🧭 PROVÍNCIAS (overlay)
+    # PROVÍNCIAS (overlay)
     # -------------------------
     provinces.boundary.plot(ax=ax, color='black', linewidth=0.8)
 
     # -------------------------
-    # 📍 EXTENSÃO CORRETA
+    # EXTENSÃO CORRETA
     # -------------------------
     ax.set_extent([30, 41, -27, -10])
 
     # -------------------------
-    # 🏷️ TÍTULO
+    # TÍTULO
     # -------------------------
     ax.set_title(
         "Mapa Geológico de Moçambique (por Era)",
@@ -111,14 +111,14 @@ def create_geological_map():
     )
 
     # -------------------------
-    # 🌐 GRID
+    # GRID
     # -------------------------
     gl = ax.gridlines(draw_labels=True, linestyle='--', linewidth=0.3)
     gl.top_labels = False
     gl.right_labels = False
 
     # -------------------------
-    # 📋 LEGENDA LIMPA
+    # LEGENDA LIMPA
     # -------------------------
     legend_elements = [
         mpatches.Patch(color=color, label=label)
@@ -134,7 +134,7 @@ def create_geological_map():
     )
 
     # -------------------------
-    # ℹ️ INFO
+    # INFO
     # -------------------------
     plt.figtext(
         0.01, 0.01,
@@ -143,13 +143,13 @@ def create_geological_map():
     )
 
     # -------------------------
-    # 💾 SALVAR
+    # SALVAR
     # -------------------------
     output_file = "mozambique_geological_map_correct.png"
     plt.savefig(output_file, dpi=300, bbox_inches='tight')
 
-    print(f"\n💾 Mapa salvo: {output_file}")
-    print("✅ Agora sim — geologicamente coerente!")
+    print(f"\nMapa salvo: {output_file}")
+    print("Agora sim — geologicamente coerente!")
 
     plt.show()
 

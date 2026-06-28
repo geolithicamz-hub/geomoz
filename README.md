@@ -1,7 +1,7 @@
 # GeoMoz - Dados Geográficos de Moçambique
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-0.1.1-blue.svg" alt="Version">
+  <img src="https://img.shields.io/badge/version-0.1.2-blue.svg" alt="Version">
   <img src="https://img.shields.io/badge/python-3.8%2B-blue.svg" alt="Python">
   <img src="https://img.shields.io/badge/R-4.0%2B-blue.svg" alt="R">
   <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License">
@@ -11,11 +11,11 @@
 
 Inspirado no [`geobr`](https://github.com/ipeaGIT/geobr) (Brasil).
 
-> 🎉 **Agora também disponível em R!** Veja a pasta [`R/`](R/) para o pacote **GeoMozR**.
+> **Agora também disponível em R!** Veja a pasta [`R/`](R/) para o pacote **GeoMozR**.
 
 ---
 
-## 📦 Versões Disponíveis
+## Versões Disponíveis
 
 | Linguagem | Instalação | Pasta |
 |-----------|-----------|-------|
@@ -24,7 +24,7 @@ Inspirado no [`geobr`](https://github.com/ipeaGIT/geobr) (Brasil).
 
 ---
 
-## 🚀 Instalação
+## Instalação
 
 ```bash
 pip install geomoz
@@ -37,7 +37,7 @@ pip install geomoz geopandas matplotlib folium
 
 ---
 
-## ⚡ Uso Rápido
+## Uso Rápido
 
 ```python
 import geomoz
@@ -45,7 +45,7 @@ import matplotlib.pyplot as plt
 
 # Carregar dados
 provincias = geomoz.read_province()
-print(f"✅ {len(provincias)} províncias carregadas")
+print(f"{len(provincias)} províncias carregadas")
 
 # Criar figura
 fig, ax = plt.subplots(figsize=(8, 12))
@@ -67,7 +67,7 @@ ax.axis("off")
 
 # Mover legenda
 leg = ax.get_legend()
-leg.set_bbox_to_anchor((1.05, 1))  # fora do mapa
+leg.set_bbox_to_anchor((1.05, 1)) # fora do mapa
 
 plt.tight_layout()
 plt.show()
@@ -75,7 +75,7 @@ plt.show()
 
 ---
 
-## 📊 Dados Disponíveis
+## Dados Disponíveis
 
 | Dataset | Registros | Função |
 |---------|-----------|--------|
@@ -87,7 +87,7 @@ plt.show()
 
 ---
 
-## 🎨 Exemplos
+## Exemplos
 
 ### Mapa de Províncias
 ```python
@@ -119,16 +119,16 @@ m.save('mapa.html')
 
 ---
 
-## 📚 Documentação
+## Documentação
 
-- **📖 [README Completo](https://github.com/geolithicamz-hub/geomoz/blob/main/README_COMPREHENSIVE.md)** - Documentação detalhada
-- **🎓 [Tutorial Educativo](https://github.com/geolithicamz-hub/geomoz/blob/main/TUTORIAL.md)** - Guia passo a passo
-- **📋 [Referência Rápida](https://github.com/geolithicamz-hub/geomoz/blob/main/QUICK_REFERENCE.md)** - Cheat sheet
-- **💻 [Exemplos](https://github.com/geolithicamz-hub/geomoz/tree/main/examples)** - Códigos de exemplo
+- **[README Completo](https://github.com/geolithicamz-hub/geomoz/blob/main/README_COMPREHENSIVE.md)** - Documentação detalhada
+- **[Tutorial Educativo](https://github.com/geolithicamz-hub/geomoz/blob/main/TUTORIAL.md)** - Guia passo a passo
+- **[Referência Rápida](https://github.com/geolithicamz-hub/geomoz/blob/main/QUICK_REFERENCE.md)** - Cheat sheet
+- **[Exemplos](https://github.com/geolithicamz-hub/geomoz/tree/main/examples)** - Códigos de exemplo
 
 ---
 
-## 🛠️ Desenvolvimento
+## Desenvolvimento
 
 ```bash
 git clone https://github.com/geolithica/geomoz.git
@@ -139,10 +139,10 @@ pytest
 
 ---
 
-## 📄 Licença
+## Licença
 
 MIT License - veja [LICENSE](LICENSE)
 
 ---
 
-**GeoMoz** - Dados geográficos de Moçambique ao alcance de todos! 🗺️🇲🇿
+**GeoMoz** - Dados geográficos de Moçambique ao alcance de todos!

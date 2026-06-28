@@ -106,8 +106,8 @@ cache local evita re-*downloads*, e funções utilitárias (`get_cache_info`,
 ### 5.1 Instalação
 
 ```bash
-pip install geomoz          # núcleo (leitura + análise espacial)
-pip install 'geomoz[viz]'   # com suporte a visualização
+pip install geomoz # núcleo (leitura + análise espacial)
+pip install 'geomoz[viz]' # com suporte a visualização
 ```
 
 ### 5.2 Exemplo mínimo
@@ -131,7 +131,7 @@ geomoz.list_geomoz()
 ### 5.3 Visualização
 
 ```python
-from geomoz import plot_provinces   # carrega matplotlib sob demanda
+from geomoz import plot_provinces # carrega matplotlib sob demanda
 plot_provinces(show_names=True, save_path="provincias.png")
 ```
 

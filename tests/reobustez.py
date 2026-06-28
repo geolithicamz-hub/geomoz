@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore")
 
 
 # =====================================================
-# 🔹 FUNÇÃO PRINCIPAL
+# FUNÇÃO PRINCIPAL
 # =====================================================
 def create_geological_map(column="code2006", province_name="Tete"):
 
@@ -37,13 +37,13 @@ def create_geological_map(column="code2006", province_name="Tete"):
     # FILTRO ESPACIAL RÁPIDO
     # -------------------------
     print("Filtrando e recortando geometria...")
-    province_geom = province.unary_union 
+    province_geom = province.unary_union
     # filtro rápido
     geology = geology[geology.intersects(province_geom)]
 
     # corte real (ESSENCIAL)
     geology = gpd.clip(geology, province)
-    
+
 
     if len(geology) == 0:
         raise ValueError("Nenhum dado encontrado após filtro espacial")
@@ -123,7 +123,7 @@ def create_geological_map(column="code2006", province_name="Tete"):
         handles=legend_elements,
         title=f"Litologias ({column})",
         loc="center",
-        ncol=3,              # 🔥 ajusta conforme nº de classes
+        ncol=3,              # ajusta conforme nº de classes
         fontsize=8,
         title_fontsize=10,
         frameon=True
@@ -168,7 +168,7 @@ def create_geological_map(column="code2006", province_name="Tete"):
 
 
 # =====================================================
-# 🔹 TESTES AUTOMÁTICOS
+# TESTES AUTOMÁTICOS
 # =====================================================
 def run_tests():
 
@@ -189,7 +189,7 @@ def run_tests():
 
 
 # =====================================================
-# 🔹 EXECUÇÃO
+# EXECUÇÃO
 # =====================================================
 if __name__ == "__main__":
 

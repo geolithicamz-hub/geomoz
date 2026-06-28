@@ -69,17 +69,17 @@ def __dir__():
 __all__ = [
     # Main read functions
     "read_province",
-    "read_district", 
+    "read_district",
     "read_admin_post",
     "read_village",
     "read_geology",
-    
+
     # List functions
     "list_geomoz",
     "list_available_geographies",
     "list_available_years",
     "get_dataset_info",
-    
+
     # Plot utilities
     "plot_provinces",
     "plot_districts_by_province",
@@ -88,11 +88,11 @@ __all__ = [
     "plot_geology_by_area",
     "create_comparison_plot",
     "quick_map",
-    
+
     # Spatial functions
     "link_district_province",
     "link_village_district",
-    "link_admin_post_district", 
+    "link_admin_post_district",
     "geology_by_province",
     "geology_by_district",
     "geology_by_admin_post",

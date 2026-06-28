@@ -73,7 +73,7 @@ patch_36s = mpatches.Patch(color='lightblue', label='Zona 36S (30-36E)')
 patch_37s = mpatches.Patch(color='lightcoral', label='Zona 37S (36-42E)')
 ax.legend(handles=[patch_36s, patch_37s], loc='upper right')
 
-ax.set_title('Moçambique: Distribuição das Zonas UTM\n36S (sul/centro) | 37S (norte)', 
+ax.set_title('Moçambique: Distribuição das Zonas UTM\n36S (sul/centro) | 37S (norte)',
             fontsize=14, fontweight='bold')
 ax.set_xlabel('Longitude')
 ax.set_ylabel('Latitude')

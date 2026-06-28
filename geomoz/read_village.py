@@ -9,10 +9,10 @@ from .utils.data import get_data_path
 
 
 def read_village(
-    code_village: Union[str, int] = "all", 
+    code_village: Union[str, int] = "all",
     name_village: str = None,
-    year: int = 2017, 
-    simplified: bool = True, 
+    year: int = 2017,
+    simplified: bool = True,
     verbose: bool = False
 ) -> gpd.GeoDataFrame:
     """
@@ -24,7 +24,7 @@ def read_village(
     Parameters
     ----------
     code_village : str or int, optional
-        The code of a village. 
+        The code of a village.
         If code_village="all", all villages will be loaded (Default).
     name_village : str, optional
         The name of a village. Use this instead of code_village
@@ -53,66 +53,66 @@ def read_village(
     Examples
     --------
     >>> from geomoz import read_village
-    >>> 
+    >>>
     >>> # Load all villages
     >>> villages = read_village()
-    >>> 
+    >>>
     >>> # Load specific village by code
     >>> village = read_village(code_village="01")
-    >>> 
+    >>>
     >>> # Load specific village by name
     >>> village = read_village(name_village="Lichinga")
-    >>> 
+    >>>
     >>> # Load with verbose output
     >>> villages = read_village(verbose=True)
     """
-    
+
     # Validate input parameters
     if code_village != "all" and name_village is not None:
         raise ValueError("Cannot specify both code_village and name_village. Use one or the other.")
-    
+
     # Get data path from Hugging Face
     filename = "village_2017.gpkg"
-    
+
     if verbose:
         print(f"Loading village data from Hugging Face: {filename}")
-    
+
     try:
         # Download and load data from Hugging Face
         data_path = get_data_path(filename)
-        
+
         if verbose:
             print(f"Data loaded from: {data_path}")
-        
+
         gdf = gpd.read_file(data_path)
-        
+
     except Exception as e:
         raise RuntimeError(f"Failed to load village data: {str(e)}")
-    
+
     # Apply filters
     if code_village != "all":
         # Filter by code
         if isinstance(code_village, str):
             code_village = code_village.zfill(2)  # Ensure 2-digit format
-        
+
         gdf = gdf[gdf['CodPov'] == str(code_village)]
-        
+
         if verbose:
             print(f"Filtered to village code: {code_village}")
-    
+
     elif name_village is not None:
         # Filter by name (case insensitive)
         mask = gdf['Povoacao'].str.lower() == name_village.lower()
         gdf = gdf[mask]
-        
+
         if verbose:
             print(f"Filtered to village name: {name_village}")
-    
+
     # Validate results
     if len(gdf) == 0:
         if code_village != "all":
             raise ValueError(f"No village found with code: {code_village}")
         elif name_village is not None:
             raise ValueError(f"No village found with name: {name_village}")
-    
+
     return gdf.reset_index(drop=True)

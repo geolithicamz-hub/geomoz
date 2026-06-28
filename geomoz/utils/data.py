@@ -23,37 +23,37 @@ CACHE_DIR = Path.home() / ".cache" / "geomoz"
 def get_data_path(filename: str, repo_id: str = "geolithicamz/geomoz-data") -> str:
     """
     Get data path from Hugging Face with automatic download and caching
-    
+
     This function downloads geospatial data from Hugging Face datasets
     and caches them locally for future use.
-    
+
     Parameters
     ----------
     filename : str
         Name of the file to download (e.g., "province_2017.gpkg")
     repo_id : str, optional
         Hugging Face repository ID. Default is "geolithicamz/geomoz-data"
-        
+
     Returns
     -------
     str
         Local path to the downloaded file
-        
+
     Raises
     ------
     ImportError
         If huggingface_hub is not installed
     FileNotFoundError
         If the file cannot be downloaded from Hugging Face
-        
+
     Examples
     --------
     >>> from geomoz.utils.data import get_data_path
-    >>> 
+    >>>
     >>> # Get path to province data
     >>> province_path = get_data_path("province_2017.gpkg")
     >>> print(f"Province data: {province_path}")
-    >>> 
+    >>>
     >>> # Get path to geology data
     >>> geology_path = get_data_path("geology_2006.gpkg")
     >>> print(f"Geology data: {geology_path}")
@@ -63,11 +63,11 @@ def get_data_path(filename: str, repo_id: str = "geolithicamz/geomoz-data") -> s
             "huggingface_hub is required but not installed. "
             "Install with: pip install huggingface_hub"
         )
-    
+
     try:
         # Create cache directory if it doesn't exist
         CACHE_DIR.mkdir(parents=True, exist_ok=True)
-        
+
         # Download file from Hugging Face (downloads are resumed by default
         # in recent huggingface_hub versions; the explicit flag was removed
         # because it is deprecated).
@@ -80,49 +80,49 @@ def get_data_path(filename: str, repo_id: str = "geolithicamz/geomoz-data") -> s
     except Exception as e:
         # Fallback robusto com mensagem clara
         error_msg = f"""
-❌ Erro ao baixar dados do Hugging Face!
+Erro ao baixar dados do Hugging Face!
 
-📁 Arquivo: {filename}
-📦 Repositório: {repo_id}
-🔗 URL: https://huggingface.co/{repo_id}
+Arquivo: {filename}
+Repositório: {repo_id}
+URL: https://huggingface.co/{repo_id}
 
-🔍 Possíveis causas:
+Possíveis causas:
 • Sem conexão com a internet
 • Hugging Face temporariamente offline
 • Nome do arquivo incorreto
 • Problemas de rede/firewall
 
-💡 Soluções:
+Soluções:
 1. Verifique sua conexão com a internet
 2. Tente novamente em alguns minutos
 3. Verifique se o arquivo existe em: https://huggingface.co/{repo_id}
 4. Desative firewall/proxy temporariamente
 
-📞 Se o problema persistir:
+Se o problema persistir:
 • Abra issue em: https://github.com/geolithicamz-hub/geomoz/issues
 • Email: heltrakinho@gmail.com
 
 Erro original: {str(e)}
 """
         raise RuntimeError(error_msg)
-    
+
     return file_path
 
 
 def list_available_files(repo_id: str = "geolithicamz/geomoz-data") -> list:
     """
     List all available files in the Hugging Face dataset
-    
+
     Parameters
     ----------
     repo_id : str, optional
         Hugging Face repository ID
-        
+
     Returns
     -------
     list
         List of available filenames
-        
+
     Examples
     --------
     >>> from geomoz.utils.data import list_available_files
@@ -131,24 +131,24 @@ def list_available_files(repo_id: str = "geolithicamz/geomoz-data") -> list:
     """
     if not HF_AVAILABLE:
         return []
-    
+
     try:
         from huggingface_hub import list_repo_files
-        
+
         files = list_repo_files(
             repo_id=repo_id,
             repo_type="dataset"
         )
-        
+
         # Filter for geopackage files
         gpkg_files = [f for f in files if f.endswith('.gpkg')]
         return gpkg_files
-        
+
     except Exception:
         # Fallback to known files
         return [
             "province_2017.gpkg",
-            "district_2017.gpkg", 
+            "district_2017.gpkg",
             "adminpost_2017.gpkg",
             "village_2017.gpkg",
             "geology_2006.gpkg"
@@ -158,10 +158,10 @@ def list_available_files(repo_id: str = "geolithicamz/geomoz-data") -> list:
 def clear_cache() -> None:
     """
     Clear the GeoMoz cache directory
-    
+
     This removes all downloaded files from the local cache.
     Next time a file is requested, it will be downloaded again.
-    
+
     Examples
     --------
     >>> from geomoz.utils.data import clear_cache
@@ -182,12 +182,12 @@ def clear_cache() -> None:
 def get_cache_info() -> dict:
     """
     Get information about the current cache
-    
+
     Returns
     -------
     dict
         Dictionary with cache information including size and file count
-        
+
     Examples
     --------
     >>> from geomoz.utils.data import get_cache_info
@@ -203,14 +203,14 @@ def get_cache_info() -> dict:
         'file_count': 0,
         'files': []
     }
-    
+
     if CACHE_DIR.exists():
         try:
             import os
             total_size = 0
             file_count = 0
             files = []
-            
+
             for root, _dirs, filenames in os.walk(CACHE_DIR):
                 for filename in filenames:
                     if filename.endswith('.gpkg'):
@@ -224,34 +224,34 @@ def get_cache_info() -> dict:
                             'size_bytes': file_size,
                             'size_mb': file_size / (1024 * 1024)
                         })
-            
+
             info.update({
                 'size_bytes': total_size,
                 'size_mb': total_size / (1024 * 1024),
                 'file_count': file_count,
                 'files': files
             })
-            
+
         except Exception as e:
             info['error'] = str(e)
-    
+
     return info
 
 
 def validate_data_file(filename: str) -> bool:
     """
     Validate if a data file exists and is accessible
-    
+
     Parameters
     ----------
     filename : str
         Name of the file to validate
-        
+
     Returns
     -------
     bool
         True if file is accessible, False otherwise
-        
+
     Examples
     --------
     >>> from geomoz.utils.data import validate_data_file

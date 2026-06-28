@@ -4,7 +4,7 @@
 
 ### 1. `geology_map_zambezia.py`
 - **Função**: Mapa completo com estatísticas detalhadas
-- **Características**: 
+- **Características**:
   - Usa coluna `Legend` para coloração
   - Top 15 unidades geológicas
   - Legenda completa
@@ -32,7 +32,7 @@
   - Sem problemas de CRS
   - Filtra unidades significativas (>5 ocorrências)
   - Mapa por suite adicional
-- **Outputs**: 
+- **Outputs**:
   - `geology_zambezia_robust.png` (1.3MB)
   - `geology_zambezia_by_suite.png` (597KB)
 
@@ -87,7 +87,7 @@ plt.show()
 ```python
 # Suite específica em Zambezia
 geo_malema = geomoz.geology_by_province(
-    name_province="Zambézia", 
+    name_province="Zambézia",
     SUITE="Malema"
 )
 print(f"Unidades Malema: {len(geo_malema)}")

@@ -13,7 +13,7 @@ Inspirado no [`geobr`](https://github.com/ipeaGIT/geobr) (Brasil), o GeoMoz faci
 
 ---
 
-## 📚 Índice
+## Índice
 
 1. [Instalação](#instalação)
 2. [Visão Geral](#visão-geral)
@@ -30,7 +30,7 @@ Inspirado no [`geobr`](https://github.com/ipeaGIT/geobr) (Brasil), o GeoMoz faci
 
 ---
 
-## 🚀 Instalação
+## Instalação
 
 ### Via pip (recomendado)
 
@@ -54,7 +54,7 @@ pip install geopandas matplotlib pandas numpy folium branca
 
 ---
 
-## 🗺️ Visão Geral
+## Visão Geral
 
 O GeoMoz oferece acesso a **11 províncias**, **161 distritos**, **459 postos administrativos**, **11.524 aldeias** e dados **geológicos completos** de Moçambique.
 
@@ -63,9 +63,9 @@ O GeoMoz oferece acesso a **11 províncias**, **161 distritos**, **459 postos ad
 ```
 Moçambique (País)
 ├── 11 Províncias
-│   ├── ~15 Distritos por província (161 total)
-│   │   ├── ~3 Postos Administrativos por distrito (459 total)
-│   │   │   ├── ~25 Aldeias por posto (11.524 total)
+│ ├── ~15 Distritos por província (161 total)
+│ │ ├── ~3 Postos Administrativos por distrito (459 total)
+│ │ │ ├── ~25 Aldeias por posto (11.524 total)
 ```
 
 ### Estatísticas de Dados
@@ -80,7 +80,7 @@ Moçambique (País)
 
 ---
 
-## ⚡ Guia Rápido
+## Guia Rápido
 
 ### 1. Carregar Dados Administrativos
 
@@ -106,7 +106,7 @@ posts = geomoz.read_admin_post()
 
 # Aldeias (usar cache para velocidade!)
 from geomoz.utils.cache import CachedGeoMoz
-villages = CachedGeoMoz.read_village()  # 11.524 aldeias
+villages = CachedGeoMoz.read_village() # 11.524 aldeias
 ```
 
 ### 2. Visualização Rápida
@@ -138,7 +138,7 @@ geo_tete = geology_by_district(name_district="Tete")
 
 ---
 
-## 📊 Dados Disponíveis
+## Dados Disponíveis
 
 ### Divisões Administrativas
 
@@ -150,9 +150,9 @@ geo_tete = geology_by_district(name_district="Tete")
 ```python
 provinces = geomoz.read_province()
 # Resultado:
-#   CodProv  Provincia                        geometry
-# 0      01       Niassa   MULTIPOLYGON (((36.123 -10.456...
-# 1      02  Cabo Delgado  MULTIPOLYGON (((40.789 -12.345...
+# CodProv Provincia geometry
+# 0 01 Niassa MULTIPOLYGON (((36.123 -10.456...
+# 1 02 Cabo Delgado MULTIPOLYGON (((40.789 -12.345...
 ```
 
 #### Distritos
@@ -162,8 +162,8 @@ provinces = geomoz.read_province()
 ```python
 districts = geomoz.read_district()
 # Resultado:
-#   CodDist   Distrito CodProv Provincia  geometry
-# 0      01   Lichinga      01    Niassa   MULTIPOLYGON ...
+# CodDist Distrito CodProv Provincia geometry
+# 0 01 Lichinga 01 Niassa MULTIPOLYGON ...
 ```
 
 #### Postos Administrativos
@@ -172,7 +172,7 @@ districts = geomoz.read_district()
 
 ```python
 posts = geomoz.read_admin_post()
-print(f"Total de postos: {len(posts)}")  # 459
+print(f"Total de postos: {len(posts)}") # 459
 ```
 
 #### Aldeias (Localidades)
@@ -183,7 +183,7 @@ print(f"Total de postos: {len(posts)}")  # 459
 # Usar cache para aldeias (dados grandes!)
 from geomoz.utils.cache import CachedGeoMoz
 villages = CachedGeoMoz.read_village()
-print(f"Total de aldeias: {len(villages)}")  # 11.524
+print(f"Total de aldeias: {len(villages)}") # 11.524
 ```
 
 ### Dados Geológicos
@@ -205,7 +205,7 @@ print(geology['ERA'].value_counts())
 
 ---
 
-## 🎯 Funções Principais
+## Funções Principais
 
 ### Funções de Leitura
 
@@ -246,7 +246,7 @@ print(f"{province_name}: {len(province_districts)} distritos, "
 
 ---
 
-## 🎨 Exemplos Práticos
+## Exemplos Práticos
 
 ### Exemplo 1: Mapa Básico de Províncias
 
@@ -261,7 +261,7 @@ provinces = geomoz.read_province()
 fig, ax = plt.subplots(figsize=(12, 10))
 
 # Plotar
-provinces.plot(ax=ax, column='Provincia', cmap='tab20', 
+provinces.plot(ax=ax, column='Provincia', cmap='tab20',
                edgecolor='black', linewidth=1, legend=True)
 
 ax.set_title('Províncias de Moçambique', fontsize=16)
@@ -384,7 +384,7 @@ m.save('mapa_interativo.html')
 
 ---
 
-## 🎨 Utilitários de Plot
+## Utilitários de Plot
 
 O GeoMoz inclui funções utilitárias para visualização rápida:
 
@@ -418,13 +418,13 @@ plot_villages_with_names("Cidade de Nampula")
 plot_geology_by_area(geo_data, column='Legend')
 
 # Comparação lado a lado
-create_comparison_plot([tete, nampula, sofala], 
+create_comparison_plot([tete, nampula, sofala],
                         ["Tete", "Nampula", "Sofala"])
 ```
 
 ---
 
-## ⚡ Sistema de Cache
+## Sistema de Cache
 
 Para dados grandes (aldeias, geologia), use o cache para acelerar:
 
@@ -432,10 +432,10 @@ Para dados grandes (aldeias, geologia), use o cache para acelerar:
 from geomoz.utils.cache import CachedGeoMoz
 
 # Primeira vez: lento (salva no cache)
-villages = CachedGeoMoz.read_village()  # ~10 segundos
+villages = CachedGeoMoz.read_village() # ~10 segundos
 
 # Segunda vez: muito rápido (do cache)
-villages = CachedGeoMoz.read_village()  # ~0.5 segundos (20x+ rápido!)
+villages = CachedGeoMoz.read_village() # ~0.5 segundos (20x+ rápido!)
 
 # Informações do cache
 from geomoz.utils.cache import print_cache
@@ -443,7 +443,7 @@ print_cache()
 
 # Limpar cache antigo
 from geomoz.utils.cache import clear_cache
-clear_cache(older_than_hours=48)  # Remove cache mais antigo que 48h
+clear_cache(older_than_hours=48) # Remove cache mais antigo que 48h
 ```
 
 ### Performance
@@ -456,7 +456,7 @@ clear_cache(older_than_hours=48)  # Remove cache mais antigo que 48h
 
 ---
 
-## 🌐 Análise Espacial
+## Análise Espacial
 
 O GeoMoz inclui funções espaciais avançadas:
 
@@ -484,7 +484,7 @@ areas = calculate_area(geology_gdf)
 
 ---
 
-## 📖 API Reference
+## API Reference
 
 ### Read Functions
 
@@ -577,7 +577,7 @@ plot_districts_by_province("Nampula", show_names=True)
 
 ---
 
-## 🤝 Contribuição
+## Contribuição
 
 Contribuições são bem-vindas! Para contribuir:
 
@@ -606,13 +606,13 @@ black geomoz/
 
 ---
 
-## 📝 Licença
+## Licença
 
 MIT License - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
 ---
 
-## 🙏 Agradecimentos
+## Agradecimentos
 
 - **INE Moçambique** - Fonte dos dados administrativos
 - **ING (Instituto Nacional de Geologia)** - Dados geológicos
@@ -620,7 +620,7 @@ MIT License - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
 ---
 
-## 📞 Contato
+## Contato
 
 - **GitHub**: https://github.com/geolithica/geomoz
 - **Issues**: https://github.com/geolithica/geomoz/issues
@@ -629,5 +629,5 @@ MIT License - veja o arquivo [LICENSE](LICENSE) para detalhes.
 ---
 
 <p align="center">
-  <b>GeoMoz</b> - Dados geográficos de Moçambique ao alcance de todos! 🗺️🇲🇿
+  <b>GeoMoz</b> - Dados geográficos de Moçambique ao alcance de todos!
 </p>

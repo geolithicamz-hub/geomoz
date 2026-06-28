@@ -1,10 +1,10 @@
-# 📚 Exemplos GeoMoz para Geólogos e Geocientistas
+# Exemplos GeoMoz para Geólogos e Geocientistas
 
 Esta pasta contém exemplos completos e tutoriais para geólogos, geocientistas e pesquisadores usarem GeoMoz em suas análises.
 
-## 🗂️ Lista de Exemplos
+## Lista de Exemplos
 
-### 1. 🗺️ [01_basic_geological_map.py](01_basic_geological_map.py)
+### 1. [01_basic_geological_map.py](01_basic_geological_map.py)
 **Mapa Geológico Básico de Moçambique**
 
 Demonstra como criar mapas geológicos profissionais usando GeoMoz + Cartopy.
@@ -22,7 +22,7 @@ Demonstra como criar mapas geológicos profissionais usando GeoMoz + Cartopy.
 
 ---
 
-### 2. 🪨 [02_stratigraphic_column.py](02_stratigraphic_column.py)
+### 2. [02_stratigraphic_column.py](02_stratigraphic_column.py)
 **Coluna Estratigráfica Geológica**
 
 Cria colunas estratigráficas detalhadas usando GeoMoz.
@@ -39,7 +39,7 @@ Cria colunas estratigráficas detalhadas usando GeoMoz.
 
 ---
 
-### 3. ⛏️ [03_mining_integration.py](03_mining_integration.py)
+### 3. [03_mining_integration.py](03_mining_integration.py)
 **Integração com Dados de Mineração**
 
 Demonstra como integrar dados geológicos com informações de mineração.
@@ -58,7 +58,7 @@ Demonstra como integrar dados geológicos com informações de mineração.
 
 ---
 
-### 4. 🗺️ [04_advanced_cartopy_maps.py](04_advanced_cartopy_maps.py)
+### 4. [04_advanced_cartopy_maps.py](04_advanced_cartopy_maps.py)
 **Mapas Avançados com Cartopy**
 
 Técnicas avançadas de mapeamento cartográfico para geólogos.
@@ -78,7 +78,7 @@ Técnicas avançadas de mapeamento cartográfico para geólogos.
 
 ---
 
-### 5. 🔬 [05_geological_analysis_advanced.py](05_geological_analysis_advanced.py)
+### 5. [05_geological_analysis_advanced.py](05_geological_analysis_advanced.py)
 **Análises Geológicas Avançadas**
 
 Análises quantitativas para geólogos e pesquisadores.
@@ -97,7 +97,7 @@ Análises quantitativas para geólogos e pesquisadores.
 
 ---
 
-### 6. 🎓 [06_complete_geologist_tutorial.py](06_complete_geologist_tutorial.py)
+### 6. [06_complete_geologist_tutorial.py](06_complete_geologist_tutorial.py)
 **Tutorial Completo para Geólogos**
 
 Tutorial passo a passo para geólogos e geocientistas.
@@ -116,7 +116,7 @@ Tutorial passo a passo para geólogos e geocientistas.
 
 ---
 
-## 🚀 Como Usar os Exemplos
+## Como Usar os Exemplos
 
 ### Instalação de Dependências
 
@@ -147,35 +147,35 @@ python 06_complete_geologist_tutorial.py
 
 ---
 
-## 📊 Tipos de Análises Demonstradas
+## Tipos de Análises Demonstradas
 
-### 🗺️ Mapeamento Cartográfico
+### Mapeamento Cartográfico
 - Mapas geológicos temáticos
 - Mapas com relevo administrativo
 - Seções geológicas transversais
 - Mapas de zonas UTM
 - Mapas de ocorrências minerais
 
-### 📈 Análises Estatísticas
+### Análises Estatísticas
 - Estatísticas descritivas
 - Testes de normalidade
 - Correlações entre variáveis
 - Distribuições de áreas
 - Análises de box plot
 
-### 🌿 Análises de Diversidade
+### Análises de Diversidade
 - Índice de diversidade de Shannon
 - Índice de diversidade de Simpson
 - Riqueza geológica
 - Análise espacial por província
 
-### ⛏️ Aplicações em Mineração
+### Aplicações em Mineração
 - Identificação de áreas de alto potencial
 - Análise de correlação geologia-produção
 - Mapas de prioridade para exploração
 - Dashboards de mineração
 
-### 🔬 Pesquisa Acadêmica
+### Pesquisa Acadêmica
 - Preparação de dados para publicação
 - Figuras para artigos científicos
 - Tabelas estatísticas formatadas
@@ -183,36 +183,36 @@ python 06_complete_geologist_tutorial.py
 
 ---
 
-## 🎯 Público-Alvo
+## Público-Alvo
 
-### 👨‍🔬 Geólogos
+### Geólogos
 - Análise de dados geológicos
 - Mapeamento temático
 - Planejamento de exploração
 
-### ⛏️ Engenheiros de Minas
+### Engenheiros de Minas
 - Análise de potencial mineral
 - Planejamento de exploração
 - Estudos de viabilidade
 
-### 🎓 Pesquisadores
+### Pesquisadores
 - Análises estatísticas
 - Publicações acadêmicas
 - Dados para teses e dissertações
 
-### 🗺️ Geógrafos
+### Geógrafos
 - Análise espacial
 - Mapeamento cartográfico
 - Estudos regionais
 
-### 🎓 Estudantes
+### Estudantes
 - Aprendizado prático
 - Tutoriais passo a passo
 - Exemplos de aplicação
 
 ---
 
-## 📞 Suporte
+## Suporte
 
 - **Documentação**: https://github.com/geolithicamz/geomoz
 - **Issues**: https://github.com/geolithicamz/geomoz/issues
@@ -220,7 +220,7 @@ python 06_complete_geologist_tutorial.py
 
 ---
 
-## 📝 Notas
+## Notas
 
 - Todos os exemplos usam dados reais de Moçambique
 - Mapas de ocorrências minerais usam dados simulados para demonstração
@@ -229,11 +229,11 @@ python 06_complete_geologist_tutorial.py
 
 ---
 
-## 🎉 Comece Agora!
+## Comece Agora!
 
 1. **Iniciantes**: Comece com `06_complete_geologist_tutorial.py`
 2. **Geólogos**: Experimente `01_basic_geological_map.py` e `02_stratigraphic_column.py`
 3. **Pesquisadores**: Use `05_geological_analysis_advanced.py`
 4. **Mineradores**: Explore `03_mining_integration.py`
 
-**Boa análise geológica!** 🗺️⛏️🔬
+**Boa análise geológica!**

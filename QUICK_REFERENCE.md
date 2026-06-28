@@ -1,6 +1,6 @@
 # GeoMoz - Guia de Referência Rápida
 
-## 🚀 Início Rápido
+## Início Rápido
 
 ```python
 import geomoz
@@ -12,7 +12,7 @@ geomoz.list_geomoz()
 provinces = geomoz.read_province()
 districts = geomoz.read_district()
 posts = geomoz.read_admin_post()
-villages = geomoz.read_village()  # Usar cache!
+villages = geomoz.read_village() # Usar cache!
 geology = geomoz.read_geology()
 
 # 3. Visualizar
@@ -22,7 +22,7 @@ quick_map(provinces, column='Provincia')
 
 ---
 
-## 📚 Funções de Leitura
+## Funções de Leitura
 
 ### Províncias
 ```python
@@ -91,7 +91,7 @@ granites = geology[geology['Legend'].str.contains('granite', case=False)]
 
 ---
 
-## 🎨 Visualização
+## Visualização
 
 ### Plot Básico
 ```python
@@ -140,7 +140,7 @@ create_comparison_plot([tete, nampula], ["Tete", "Nampula"])
 
 ---
 
-## 🌐 Mapas Web (Folium)
+## Mapas Web (Folium)
 
 ```python
 import folium
@@ -167,7 +167,7 @@ m.save('mapa.html')
 
 ---
 
-## 🎯 Análise Espacial
+## Análise Espacial
 
 ### Interseção
 ```python
@@ -177,7 +177,7 @@ import geopandas as gpd
 geo_in_province = gpd.overlay(geology, province, how='intersection')
 
 # Interseção, união, diferença
-result = gpd.overlay(gdf1, gdf2, how='intersection')  # ou 'union', 'difference'
+result = gpd.overlay(gdf1, gdf2, how='intersection') # ou 'union', 'difference'
 ```
 
 ### Funções Espaciais do GeoMoz
@@ -201,7 +201,7 @@ linked_data = link_village_district(name_district="Nampula")
 ### Cálculo de Área
 ```python
 # Converter para CRS projetado (metros)
-gdf_utm = gdf.to_crs(epsg=32736)  # UTM zona 36S
+gdf_utm = gdf.to_crs(epsg=32736) # UTM zona 36S
 
 # Calcular área em km²
 area_km2 = gdf_utm.geometry.area / 1e6
@@ -212,7 +212,7 @@ gdf['area_km2'] = area_km2
 
 ---
 
-## ⚡ Cache
+## Cache
 
 ```python
 from geomoz.utils.cache import (
@@ -223,9 +223,9 @@ from geomoz.utils.cache import (
 )
 
 # Usar versões cacheadas (muito mais rápido!)
-villages = CachedGeoMoz.read_village()      # 20x+ rápido na 2ª vez
-geology = CachedGeoMoz.read_geology()       # 15x+ rápido
-posts = CachedGeoMoz.read_admin_post()     # 10x+ rápido
+villages = CachedGeoMoz.read_village() # 20x+ rápido na 2ª vez
+geology = CachedGeoMoz.read_geology() # 15x+ rápido
+posts = CachedGeoMoz.read_admin_post() # 10x+ rápido
 
 # Ver informações do cache
 print_cache()
@@ -236,29 +236,29 @@ clear_cache(older_than_hours=48)
 
 ---
 
-## 📊 Cores Geológicas Padrão
+## Cores Geológicas Padrão
 
 ```python
 era_colors = {
-    'Archean': '#6b3d2e',      # Marrom escuro
-    'Proterozoic': '#a0522d',   # Marrom
-    'Paleozoic': '#4f81bd',     # Azul
-    'Mesozoic': '#f1c232',      # Amarelo
-    'Cenozoic': '#6aa84f',      # Verde
-    'Other': '#cccccc'          # Cinza
+    'Archean': '#6b3d2e', # Marrom escuro
+    'Proterozoic': '#a0522d', # Marrom
+    'Paleozoic': '#4f81bd', # Azul
+    'Mesozoic': '#f1c232', # Amarelo
+    'Cenozoic': '#6aa84f', # Verde
+    'Other': '#cccccc' # Cinza
 }
 ```
 
 ---
 
-## 🔧 Transformações de CRS
+## Transformações de CRS
 
 ```python
 # CRS padrão (WGS 84 - graus)
-print(gdf.crs)  # epsg:4326
+print(gdf.crs) # epsg:4326
 
 # Converter para UTM (metros - bom para cálculos)
-gdf_utm = gdf.to_crs(epsg=32736)  # Zona 36S (Moçambique)
+gdf_utm = gdf.to_crs(epsg=32736) # Zona 36S (Moçambique)
 
 # Zonas UTM para Moçambique:
 # - Oeste (Cabo Delgado, Niassa): epsg:32735 (Zona 35S)
@@ -267,7 +267,7 @@ gdf_utm = gdf.to_crs(epsg=32736)  # Zona 36S (Moçambique)
 
 ---
 
-## 💾 Exportação
+## Exportação
 
 ```python
 # GeoJSON
@@ -285,7 +285,7 @@ provinces.drop('geometry', axis=1).to_csv('provinces.csv', index=False)
 
 ---
 
-## 📈 Estatísticas Rápidas
+## Estatísticas Rápidas
 
 ```python
 # Contagem
@@ -305,14 +305,14 @@ summary = gdf.groupby('Provincia').agg({
 
 ---
 
-## 🐍 Snippets Comuns
+## Snippets Comuns
 
 ### Criar mapa com legenda
 ```python
 fig, ax = plt.subplots(figsize=(12, 10))
 
-gdf.plot(ax=ax, column='Legend', cmap='tab20', 
-         legend=True, legend_kwds={'title': 'Litologia', 
+gdf.plot(ax=ax, column='Legend', cmap='tab20',
+         legend=True, legend_kwds={'title': 'Litologia',
                                    'bbox_to_anchor': (1.05, 1)})
 ax.set_title('Mapa Geológico')
 ax.axis('off')
@@ -359,14 +359,14 @@ plt.show()
 
 ---
 
-## 🆘 Resolução de Problemas
+## Resolução de Problemas
 
 ### Erro: Dados demais para aldeias
 ```python
-# ❌ Lento
+# Lento
 villages = geomoz.read_village()
 
-# ✅ Rápido
+# Rápido
 from geomoz.utils.cache import CachedGeoMoz
 villages = CachedGeoMoz.read_village()
 ```
@@ -382,8 +382,8 @@ result = gpd.overlay(gdf1, gdf2, how='intersection')
 ```python
 # Processar em chunks
 for prov in provinces['Provincia']:
-    geo_in_prov = gpd.overlay(geology, 
-                               provinces[provinces['Provincia']==prov], 
+    geo_in_prov = gpd.overlay(geology,
+                               provinces[provinces['Provincia']==prov],
                                how='intersection')
     # Salvar/processar
 ```
@@ -397,7 +397,7 @@ print(provinces['Provincia'].tolist())
 
 ---
 
-## 📚 Recursos Adicionais
+## Recursos Adicionais
 
 - **README Completo**: `README_COMPREHENSIVE.md`
 - **Tutorial Educativo**: `TUTORIAL.md`
@@ -406,4 +406,4 @@ print(provinces['Provincia'].tolist())
 
 ---
 
-**GeoMoz** - Referência rápida para trabalho eficiente! 🚀
+**GeoMoz** - Referência rápida para trabalho eficiente!
