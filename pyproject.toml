@@ -77,6 +77,12 @@ markers = [
     "network: tests that download real data from Hugging Face (deselect with '-m \"not network\"')",
 ]
 
+[tool.hatch.build.targets.sdist]
+# Keep the source distribution lean: ship only the package and essential
+# metadata. Heavy docs assets (example PNGs/HTML maps) and the R package
+# live in the git repo, not on PyPI.
+only-include = ["geomoz", "README.md", "LICENSE", "requirements.txt"]
+
 [tool.hatch.build.targets.wheel]
 packages = ["geomoz"]
 
