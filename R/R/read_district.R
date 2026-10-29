@@ -17,7 +17,7 @@ read_district <- function(code_district = NULL,
                           name_district = NULL, 
                           name_province = NULL) {
   # Download data if needed
-  file_path <- download_from_hf("districts.gpkg")
+  file_path <- download_from_hf("district_2017.gpkg")
   
   # Read with sf
   data <- sf::st_read(file_path, quiet = TRUE)

@@ -17,7 +17,7 @@
 #' }
 read_province <- function(code_province = NULL, name_province = NULL) {
   # Download data if needed
-  file_path <- download_from_hf("provinces.gpkg")
+  file_path <- download_from_hf("province_2017.gpkg")
   
   # Read with sf
   data <- sf::st_read(file_path, quiet = TRUE)

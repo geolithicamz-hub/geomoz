@@ -6,6 +6,7 @@ import geopandas as gpd
 from typing import Optional, Union
 
 from .utils.data import get_data_path
+from ._validation import validate_dataset_options
 
 
 def read_province(
@@ -64,6 +65,8 @@ def read_province(
     # Validate input parameters
     if code_province != "all" and name_province is not None:
         raise ValueError("Cannot specify both code_province and name_province. Use one or the other.")
+
+    validate_dataset_options(year, simplified, available_year=2017)
 
     # Get data path from Hugging Face
     filename = "province_2017.gpkg"

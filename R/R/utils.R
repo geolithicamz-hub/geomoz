@@ -63,7 +63,7 @@ download_from_hf <- function(filename, force_download = FALSE) {
   
   # Download with httr2
   req <- httr2::request(url)
-  req <- httr2::req_options(req, ssl_verifypeer = 0L)
+  # Keep TLS certificate validation enabled.
   
   # Download to cache
   tryCatch({
@@ -81,11 +81,11 @@ download_from_hf <- function(filename, force_download = FALSE) {
 #' @keywords internal
 list_hf_datasets <- function() {
   datasets <- c(
-    "provinces.gpkg",
-    "districts.gpkg",
-    "admin_posts.gpkg",
-    "villages.gpkg",
-    "geology.gpkg"
+    "province_2017.gpkg",
+    "district_2017.gpkg",
+    "adminpost_2017.gpkg",
+    "village_2017.gpkg",
+    "geology_2006.gpkg"
   )
   return(datasets)
 }

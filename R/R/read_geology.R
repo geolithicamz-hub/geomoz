@@ -23,7 +23,7 @@ read_geology <- function(code_geology = NULL,
                          era = NULL,
                          rock_type = NULL) {
   # Download data if needed
-  file_path <- download_from_hf("geology.gpkg")
+  file_path <- download_from_hf("geology_2006.gpkg")
   
   # Read with sf
   data <- sf::st_read(file_path, quiet = TRUE)

@@ -6,6 +6,7 @@ import geopandas as gpd
 from typing import Optional, Union
 
 from .utils.data import get_data_path
+from ._validation import validate_dataset_options
 
 
 def read_village(
@@ -70,6 +71,8 @@ def read_village(
     # Validate input parameters
     if code_village != "all" and name_village is not None:
         raise ValueError("Cannot specify both code_village and name_village. Use one or the other.")
+
+    validate_dataset_options(year, simplified, available_year=2017)
 
     # Get data path from Hugging Face
     filename = "village_2017.gpkg"
