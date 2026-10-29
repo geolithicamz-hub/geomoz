@@ -6,6 +6,7 @@ import geopandas as gpd
 from typing import Optional, Union
 
 from .utils.data import get_data_path
+from ._validation import validate_dataset_options
 
 
 def read_geology(
@@ -104,6 +105,8 @@ def read_geology(
     if code_geology != "all" and name_geology is not None:
         raise ValueError("Cannot specify both code_geology and name_geology. Use one or the other.")
 
+    validate_dataset_options(year, simplified, available_year=2006)
+
     # Get data path from Hugging Face
     filename = "geology_2006.gpkg"
 
@@ -164,12 +167,14 @@ def read_geology(
     }
 
     for column, value in geology_filters.items():
-        if value is not None and column in gdf.columns:
+        if value is not None:
+            if column not in gdf.columns:
+                raise ValueError(f"Geological field {column!r} is not present in this dataset")
             if verbose:
                 print(f"Filtering by {column}: {value}")
 
             if isinstance(value, str):
-                mask = gdf[column].str.lower() == value.lower()
+                mask = gdf[column].astype('string').str.casefold() == value.casefold()
             else:
                 mask = gdf[column] == value
 

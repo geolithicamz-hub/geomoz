@@ -202,56 +202,26 @@ def link_district_province(
     how: str = "left",
     spatial: bool = False
 ) -> gpd.GeoDataFrame:
-    """
-    Link districts with provinces using spatial or attribute join
-
-    Parameters
-    ----------
-    code_province : str or int, optional
-        Province code to filter districts. Default "all" for all provinces.
-    name_province : str, optional
-        Province name to filter districts.
-    how : str, optional
-        Type of merge: "left", "right", "inner", "outer". Default "left".
-    spatial : bool, optional
-        Use spatial join instead of attribute join. Default False.
-
-    Returns
-    -------
-    gpd.GeoDataFrame
-        Districts linked with province information
-
-    Examples
-    --------
-    >>> from geomoz.spatial import link_district_province
-    >>>
-    >>> # Attribute join
-    >>> linked = link_district_province()
-    >>>
-    >>> # Spatial join
-    >>> linked = link_district_province(spatial=True)
-    >>>
-    >>> # Filter by province
-    >>> linked = link_district_province(name_province="Nampula")
-    """
-
-    # Load data
-    districts = read_district(code_district="all")
-    provinces = read_province(code_province=code_province, name_province=name_province)
-
+    """Associate districts with province coverage, keeping one active geometry."""
+    if code_province not in ("all", None) and name_province is not None:
+        raise ValueError("Specify a province code OR a province name")
+    filters = ({"name_province": name_province} if name_province is not None
+               else {"code_province": code_province or "all"})
+    provinces = read_province(**filters)
+    districts = read_district()
+    filtered = name_province is not None or code_province not in ("all", None)
     if spatial:
-        # Spatial join
-        result = gpd.sjoin(districts, provinces, predicate="within", how=how)
+        if how not in ("left", "right", "inner"):
+            raise ValueError("Spatial join supports only left, right or inner")
+        right = provinces[["geometry"]]
+        if districts.crs != right.crs:
+            right = right.to_crs(districts.crs)
+        result = gpd.sjoin(districts, right, predicate="within",
+                           how="inner" if filtered else how)
     else:
-        # Attribute join using province codes
-        result = districts.merge(
-            provinces[["CodProv", "Provincia", "geometry"]],
-            on="CodProv",
-            how=how
-        )
-
+        result = districts.merge(provinces[["CodProv"]].drop_duplicates(),
+                                 on="CodProv", how="inner" if filtered else how)
     return result.reset_index(drop=True)
-
 
 def link_village_district(
     code_district: Union[str, int] = "all",
@@ -259,50 +229,31 @@ def link_village_district(
     how: str = "left",
     spatial: bool = False
 ) -> gpd.GeoDataFrame:
-    """
-    Link villages with districts using spatial or attribute join
-
-    Parameters
-    ----------
-    code_district : str or int, optional
-        District code to filter villages. Default "all" for all districts.
-    name_district : str, optional
-        District name to filter villages.
-    how : str, optional
-        Type of merge: "left", "right", "inner", "outer". Default "left".
-    spatial : bool, optional
-        Use spatial join instead of attribute join. Default False.
-
-    Returns
-    -------
-    gpd.GeoDataFrame
-        Villages linked with district information
-    """
-
-    # Load data
-    villages = read_village(code_village="all")
-    districts = read_district(code_district=code_district, name_district=name_district)
-
+    """Associate villages and districts using both district and province names."""
+    if code_district not in ("all", None) and name_district is not None:
+        raise ValueError("Specify a district code OR a district name")
+    filters = ({"name_district": name_district} if name_district is not None
+               else {"code_district": code_district or "all"})
+    districts = read_district(**filters)
+    villages = read_village()
+    filtered = name_district is not None or code_district not in ("all", None)
     if spatial:
-        # Spatial join
-        result = gpd.sjoin(villages, districts, predicate="within", how=how)
+        if how not in ("left", "right", "inner"):
+            raise ValueError("Spatial join supports only left, right or inner")
+        right = districts[["geometry"]]
+        if right.crs != villages.crs:
+            right = right.to_crs(villages.crs)
+        result = gpd.sjoin(villages, right, predicate="within",
+                           how="inner" if filtered else how)
     else:
-        # Attribute join - need to find the linking column
-        # Check if we can link by district name
-        if "DISTRITO" in villages.columns and "Distrito" in districts.columns:
-            result = villages.merge(
-                districts[["CodDist", "Distrito", "Provincia", "geometry"]],
-                left_on="DISTRITO",
-                right_on="Distrito",
-                how=how
-            )
-        else:
-            # Fallback to spatial join
-            warnings.warn("Attribute join columns not found, using spatial join")
-            result = gpd.sjoin(villages, districts, predicate="within", how=how)
-
+        required = {"Distrito", "Provincia"}
+        if not required.issubset(villages.columns) or not required.issubset(districts.columns):
+            raise ValueError("Both datasets require normalized Distrito and Provincia columns")
+        # Retain the original village geometry, rather than merging a second geometry.
+        keys = districts[["Distrito", "Provincia"]].drop_duplicates()
+        result = villages.merge(keys, on=["Distrito", "Provincia"],
+                                how="inner" if filtered else how)
     return result.reset_index(drop=True)
-
 
 def link_admin_post_district(
     code_district: Union[str, int] = "all",
@@ -310,43 +261,29 @@ def link_admin_post_district(
     how: str = "left",
     spatial: bool = False
 ) -> gpd.GeoDataFrame:
-    """
-    Link administrative posts with districts using spatial or attribute join
-
-    Parameters
-    ----------
-    code_district : str or int, optional
-        District code to filter admin posts. Default "all" for all districts.
-    name_district : str, optional
-        District name to filter admin posts.
-    how : str, optional
-        Type of merge: "left", "right", "inner", "outer". Default "left".
-    spatial : bool, optional
-        Use spatial join instead of attribute join. Default False.
-
-    Returns
-    -------
-    gpd.GeoDataFrame
-        Administrative posts linked with district information
-    """
-
-    # Load data
-    admin_posts = read_admin_post(code_admin_post="all")
-    districts = read_district(code_district=code_district, name_district=name_district)
-
+    """Associate administrative posts with districts without geometry collisions."""
+    if code_district not in ("all", None) and name_district is not None:
+        raise ValueError("Specify a district code OR a district name")
+    filters = ({"name_district": name_district} if name_district is not None
+               else {"code_district": code_district or "all"})
+    districts = read_district(**filters)
+    posts = read_admin_post()
+    filtered = name_district is not None or code_district not in ("all", None)
     if spatial:
-        # Spatial join
-        result = gpd.sjoin(admin_posts, districts, predicate="within", how=how)
+        if how not in ("left", "right", "inner"):
+            raise ValueError("Spatial join supports only left, right or inner")
+        right = districts[["geometry"]]
+        if right.crs != posts.crs:
+            right = right.to_crs(posts.crs)
+        result = gpd.sjoin(posts, right, predicate="within",
+                           how="inner" if filtered else how)
     else:
-        # Attribute join
-        result = admin_posts.merge(
-            districts[["CodDist", "Distrito", "Provincia", "geometry"]],
-            on="CodDist",
-            how=how
-        )
-
+        keys = ["CodDist"]
+        if "CodProv" in posts.columns and "CodProv" in districts.columns:
+            keys = ["CodProv", "CodDist"]
+        result = posts.merge(districts[keys].drop_duplicates(),
+                             on=keys, how="inner" if filtered else how)
     return result.reset_index(drop=True)
-
 
 def geology_by_province(
     code_province: Union[str, int] = None,
@@ -562,57 +499,17 @@ def geology_by_area(
 
 
 def calculate_area(gdf: gpd.GeoDataFrame, unit: str = "km2") -> gpd.GeoDataFrame:
+    """Calculate ellipsoidal area (WGS84), including across UTM 36S/37S.
+
+    Preserve the GeoDataFrame's original CRS, geometry and row index. The
+    output column is ``area_km2`` or ``area_m2``. Inputs without CRS or
+    with invalid polygon geometries raise an explicit error.
     """
-    Calcular área precisa de geometrias usando CRS projetado automático
+    from .geodesy import geodesic_area
 
-    Esta função converte automaticamente para o CRS UTM apropriado para cálculos
-    precisos de área, depois retorna os dados no CRS original.
-
-    Parameters
-    ----------
-    gdf : gpd.GeoDataFrame
-        GeoDataFrame para calcular áreas
-    unit : str, optional
-        Unidade da área: "km2" (quilômetros quadrados) ou "m2" (metros quadrados)
-        Default "km2".
-
-    Returns
-    -------
-    gpd.GeoDataFrame
-        GeoDataFrame original com coluna 'area' adicionada
-
-    Examples
-    --------
-    >>> from geomoz.spatial import geology_by_province, calculate_area
-    >>>
-    >>> # Obter geologia e calcular áreas
-    >>> geo = geology_by_province(name_province="Zambézia")
-    >>> geo_with_area = calculate_area(geo)
-    >>> print(f"Área total: {geo_with_area['area'].sum():.2f} km²")
-    """
-    # Fazer cópia para não modificar original
-    gdf_copy = gdf.copy()
-
-    # Converter para CRS projetado
-    gdf_projected = _ensure_projected_crs(gdf_copy)
-
-    # Calcular área
-    areas = gdf_projected.geometry.area
-
-    # Converter para unidade desejada
-    if unit == "km2":
-        areas = areas / 1_000_000  # m² para km²
-        column_name = "area_km2"
-    elif unit == "m2":
-        column_name = "area_m2"
-    else:
-        raise ValueError("unit must be 'km2' or 'm2'")
-
-    # Adicionar coluna de área ao DataFrame original
-    gdf_copy[column_name] = areas
-
-    return gdf_copy
-
+    result = gdf.copy()
+    result[f"area_{unit}"] = geodesic_area(gdf, unit=unit)
+    return result
 
 def get_hierarchical_data(
     code_province: Union[str, int] = None,
@@ -620,71 +517,60 @@ def get_hierarchical_data(
     include_villages: bool = False,
     spatial: bool = False
 ) -> dict:
+    """Return province, district, admin-post and optionally village data.
+
+    Exactly one province selector must be supplied. Attribute mode matches
+    administrative codes and normalized province names; spatial mode tests
+    representative points against the selected province geometry.
     """
-    Get complete hierarchical data for a province
+    if (code_province is None) == (name_province is None):
+        raise ValueError("Specify exactly one of code_province and name_province")
+    selected = ({"code_province": code_province} if code_province is not None
+                else {"name_province": name_province})
+    province = read_province(**selected)
+    if province.empty:
+        raise ValueError("The requested province was not found")
+    districts = read_district()
+    admin_posts = read_admin_post()
 
-    Parameters
-    ----------
-    code_province : str or int, optional
-        Province code. Either this or name_province must be provided.
-    name_province : str, optional
-        Province name. Either this or code_province must be provided.
-    include_villages : bool, optional
-        Include village level data. Default False (can be large).
-    spatial : bool, optional
-        Use spatial joins instead of attribute joins. Default False.
-
-    Returns
-    -------
-    dict
-        Dictionary containing hierarchical data:
-        {
-            'province': GeoDataFrame,
-            'districts': GeoDataFrame,
-            'admin_posts': GeoDataFrame,
-            'villages': GeoDataFrame (optional)
-        }
-    """
-
-    if code_province is None and name_province is None:
-        raise ValueError("Either 'code_province' or 'name_province' must be provided")
-
-    # Get province
-    province = read_province(code_province=code_province, name_province=name_province)
-
-    # Get linked districts
-    districts = link_district_province(
-        code_province=code_province,
-        name_province=name_province,
-        spatial=spatial
-    )
-
-    # Get linked admin posts (filtrar pelos distritos da província)
-    admin_posts = link_admin_post_district(spatial=spatial)
-    # Filtrar para apenas os posts administrativos da província
     if spatial:
-        # Se foi spatial join, já tem a informação da província
-        admin_posts = admin_posts[admin_posts['Provincia'].str.lower() == name_province.lower() if name_province else admin_posts['CodProv'].astype(str) == str(code_province)]
+        if province.crs is None:
+            raise ValueError("Province dataset requires a CRS")
+        boundary = province.to_crs("EPSG:4326").geometry.union_all()
+
+        def within_province(layer):
+            if layer.crs is None:
+                raise ValueError("An administrative layer has no CRS")
+            points = layer.to_crs("EPSG:4326").geometry.representative_point()
+            return layer.loc[points.within(boundary)].copy().reset_index(drop=True)
+
+        districts = within_province(districts)
+        admin_posts = within_province(admin_posts)
     else:
-        # Se foi attribute join, filtrar pelos códigos de distrito da província
-        province_districts = districts['CodDist'].unique()
-        admin_posts = admin_posts[admin_posts['CodDist'].isin(province_districts)]
+        province_codes = set(province["CodProv"].astype(str).str.strip())
+        districts = districts[
+            districts["CodProv"].astype(str).str.strip().isin(province_codes)
+        ].copy().reset_index(drop=True)
+        district_codes = set(districts["CodDist"].astype(str).str.strip())
+        admin_posts = admin_posts[
+            admin_posts["CodDist"].astype(str).str.strip().isin(district_codes)
+        ]
+        if "CodProv" in admin_posts.columns:
+            admin_posts = admin_posts[
+                admin_posts["CodProv"].astype(str).str.strip().isin(province_codes)
+            ]
+        admin_posts = admin_posts.copy().reset_index(drop=True)
 
-    result = {
-        'province': province,
-        'districts': districts,
-        'admin_posts': admin_posts
-    }
-
-    # Optionally include villages (can be very large)
+    result = {"province": province, "districts": districts, "admin_posts": admin_posts}
     if include_villages:
-        villages = link_village_district(spatial=spatial)
-        # Filtrar para apenas as aldeias da província
+        villages = read_village()
         if spatial:
-            villages = villages[villages['Provincia'].str.lower() == name_province.lower() if name_province else villages['CodProv'].astype(str) == str(code_province)]
+            villages = within_province(villages)
         else:
-            # Filtrar pelos códigos de distrito da província
-            villages = villages[villages['CodDist'].isin(province_districts)]
-        result['villages'] = villages
-
+            names = set(province["Provincia"].astype(str).str.casefold().str.strip())
+            villages = villages[
+                villages["Provincia"].astype(str).str.casefold().str.strip().isin(names)
+            ].copy().reset_index(drop=True)
+        result["villages"] = villages
     return result
+

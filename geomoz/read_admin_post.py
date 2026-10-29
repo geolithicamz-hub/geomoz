@@ -6,6 +6,7 @@ import geopandas as gpd
 from typing import Optional, Union
 
 from .utils.data import get_data_path
+from ._validation import validate_dataset_options
 
 
 def read_admin_post(
@@ -68,6 +69,8 @@ def read_admin_post(
     # Validate input parameters
     if code_admin_post != "all" and name_admin_post is not None:
         raise ValueError("Cannot specify both code_admin_post and name_admin_post. Use one or the other.")
+
+    validate_dataset_options(year, simplified, available_year=2017)
 
     # Get data path from Hugging Face
     filename = "adminpost_2017.gpkg"

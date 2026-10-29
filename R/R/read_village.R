@@ -27,7 +27,7 @@ read_village <- function(code_village = NULL,
                          name_province = NULL,
                          use_cache = TRUE) {
   # Download data if needed
-  file_path <- download_from_hf("villages.gpkg", force_download = !use_cache)
+  file_path <- download_from_hf("village_2017.gpkg", force_download = !use_cache)
   
   # Read with sf
   data <- sf::st_read(file_path, quiet = TRUE)

@@ -19,7 +19,7 @@ read_admin_post <- function(code_admin_post = NULL,
                             name_district = NULL,
                             name_province = NULL) {
   # Download data if needed
-  file_path <- download_from_hf("admin_posts.gpkg")
+  file_path <- download_from_hf("adminpost_2017.gpkg")
   
   # Read with sf
   data <- sf::st_read(file_path, quiet = TRUE)
