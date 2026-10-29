@@ -15,6 +15,7 @@ from .read_admin_post import read_admin_post
 from .read_village import read_village
 from .read_geology import read_geology
 from .list_geomoz import list_geomoz, list_available_geographies, list_available_years, get_dataset_info
+from .source_catalog import list_source_datasets, get_source_dataset
 
 # Import spatial functions
 from .spatial import (
@@ -67,6 +68,8 @@ def __dir__():
 
 
 __all__ = [
+    "list_source_datasets",
+    "get_source_dataset",
     # Main read functions
     "read_province",
     "read_district",
